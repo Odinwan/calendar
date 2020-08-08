@@ -19,13 +19,13 @@ const MonthComponent = (props) => {
     const dispatch = useDispatch()
     const Date = useSelector(state => state.calendar.choseAllDate)
 
-    const getCalendar  = async () => {
+    const getCalendar  =  () => {
         let calendar = []
         const startWeek = moment().startOf('month').week();
         const endWeek = moment().endOf('month').week();
         for(var week = startWeek; week<endWeek;week++){
             console.log()
-            await calendar.push({
+            calendar.push({
                 week:week,
                 days:Array(7).fill(0).map((n, i) => moment().week(week).startOf('week').clone().add(n + i, 'day'))
             })
@@ -33,15 +33,8 @@ const MonthComponent = (props) => {
         return  calendar
     }
 
+    const [calendar,setCalendars] = useState(getCalendar())
 
-    const [calendar,setCalendars] = useState([])
-
-    useEffect(() => {
-        const asd = getCalendar()
-        setCalendars(asd)
-        console.log('asd',asd)
-        console.log('calendar',calendar)
-    },[])
 
     const widthItem = () => {
         return (deviceWidth / 7) - 10
@@ -51,18 +44,18 @@ const MonthComponent = (props) => {
     }
     const monthRender = () => {
         console.log('calendar',calendar)
-        // const month = calendar.map((item,index) => <View
-        //     style={{ marginBottom: 15,borderRadius: 25,backgroundColor: index === 1 ?'rgb(228, 245, 254)': null,marginHorizontal: 20, width: width(),height: 40,alignItems: 'center',flexDirection: 'row',justifyContent: 'space-around'}}>
-        //     {renderWeekLine(item.days)}
-        // </View>)
-        // return month
+        const month = calendar.map((item,index) => <View
+            style={{ marginBottom: 15,borderRadius: 25,backgroundColor: index === 1 ?'rgb(228, 245, 254)': null,marginHorizontal: 20, width: width(),height: 40,alignItems: 'center',flexDirection: 'row',justifyContent: 'space-around'}}>
+            {renderWeekLine(item.days)}
+        </View>)
+        return month
     }
     const pressDay = (item) => {
-       if (item.format('MM') === moment().format('MM')) {
-           console.log(false)
-       } else {
-           console.log(true)
-       }
+        if (item.format('MM') === moment().format('MM')) {
+            console.log(false)
+        } else {
+            console.log(true)
+        }
     }
     const renderWeekLine = (item) => {
 
@@ -97,12 +90,12 @@ const MonthComponent = (props) => {
             {/*</View>*/}
             <View style={{justifyContent: 'center',alignItems: 'center',width: '100%'}}>
                 <FlatList
-                horizontal={false}
-                vertical={true}
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item, index) => index.toString()}
-                data={ monthRender() }
-                renderItem={({item}) => <>{item}</>}
+                    horizontal={false}
+                    vertical={true}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item, index) => index.toString()}
+                    data={ monthRender() }
+                    renderItem={({item}) => <>{item}</>}
                 />
             </View>
         </>)
