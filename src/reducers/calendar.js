@@ -20,6 +20,7 @@ const initialState = {
 export default function peopleReducer(state = initialState, action) {
   switch (action.type) {
     case CHOSE_DAY:
+      console.log('action.payload',action.payload)
       return {
         ...state,
         choseDay: action.payload
