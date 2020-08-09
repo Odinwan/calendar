@@ -85,13 +85,20 @@ const MonthComponent = (props) => {
     }
 
     const countMess = (check,item) => {
-        // console.log("item",item)
-        // console.log("Object(messArr)",Object.values(messArr)[0].day)
+
             let otv
-            for (let i = 0;i < messArr.length; i++) {
+            for (let i = 0;i < Object.values(messArr).length; i++) {
                 if (item == Object.values(messArr)[i].day) {
-                    console.log('item',item)
-                    otv = `x${4}`
+                    console.log('opject',Object.values(messArr)[i])
+                    if (Object.values((messArr))[i].hasOwnProperty('third')) {
+                        return otv = `x${3}`
+                    }
+                    if (Object.values((messArr))[i].hasOwnProperty('second')) {
+                        return otv = `x${2}`
+                    }
+                    if (Object.values((messArr))[i].hasOwnProperty('first')) {
+                        return otv = `x${1}`
+                    }
                 }
             }
 
@@ -140,10 +147,17 @@ const MonthComponent = (props) => {
         </>)
     }
 
-    return <ScrollView style={{height: '100%',paddingBottom: 1000}}>
-        {calendar.map((item) => renderItems(item))}
-
-    </ScrollView>
+    return <View style={{height: '100%',paddingBottom: 1000}}>
+        {/*{calendar.map((item) => renderItems(item))}*/}
+        <FlatList
+            horizontal={false}
+            vertical={true}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item, index) => index.toString()}
+            data={ calendar }
+            renderItem={({item}) => renderItems(item)}
+        />
+    </View>
 
 
 }
