@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {TextInput,TouchableOpacity, Text, View} from "react-native";
 import { Picker } from '@react-native-community/picker'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addEntry} from "../actions/actions";
 
@@ -15,10 +15,34 @@ const DetailScreen = (props) => {
     const [endSelectedHour, setEndSelectedHour] = useState(10);
     const [endSelectedMinutes, setEndSelectedMinutes] = useState(30);
     const [valueMess, onChangeText] = React.useState('Useless Placeholder');
+    const [check, setCheck] = React.useState(true);
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        if (endSelectedHour <= startSelectedHour ) {
+            // console.log('check',check)
+            setCheck(true)
+            // console.log('check',check)
+        } else {
+            setCheck(false)
+            // alert('Начальное время не может быть больше конечного')
+        }
+    },[])
 
-    const count = (numb) => {
+    useEffect(() => {
+        console.log('endSelectedHour',endSelectedHour)
+        console.log('startSelectedHour',startSelectedHour)
+        if (endSelectedHour >= startSelectedHour ) {
+            console.log('in')
+            // console.log('check',check)
+            setCheck(true)
+            // console.log('check',check)
+        } else {
+            setCheck(false)
+        }
+    },[startSelectedHour,endSelectedHour])
+
+    const count = (prevNumb,numb, element) => {
         return {
             [`${choseAllDate.format('L')}`]: {
                 day: `${choseAllDate.format('L')}`,
@@ -33,31 +57,91 @@ const DetailScreen = (props) => {
             }
         }
     }
+    const setStartHour = (itemValue) => {
+        setStartSelectedHour(itemValue)
+    }
 
+    const setEndHour = (itemValue) => {
+        if (startSelectedHour <= itemValue) {
+            setEndSelectedHour(itemValue)
+        } else {
+            setEndSelectedHour(startSelectedHour)
+        }
+    }
 
+    const setStartMinutes = (itemValue) => {
+        setStartSelectedMinutes(itemValue)
+    }
 
-    const saveEntry = (data) => {
-        let test = Object.values(data)
-        let findElement = Object.values(data).find(data => data.day == choseAllDate.format('L'))
-        for (let i = 0; i < test.length;i++) {
-            if (findElement) {
-                if (test[i].day === choseAllDate.format('L')) {
-                    if (test[i].hasOwnProperty('second')) {
-                        let third = count('third')
-                        dispatch(addEntry(third))
-                    } else if (test[i].hasOwnProperty('first')) {
-                        let second = count('second')
-                        dispatch(addEntry(second))
-                    }
-                }
+    const setEndMinutes = (itemValue) => {
+        if (startSelectedHour == endSelectedHour) {
+            if (startSelectedMinutes < endSelectedMinutes) {
+                setEndSelectedMinutes(itemValue)
             } else {
-                let first = count('first')
-                dispatch(addEntry(first))
+                setEndSelectedMinutes(startSelectedMinutes + 1)
             }
+        } else {
+            setEndSelectedMinutes(itemValue)
+        }
+    }
 
+    const checkTime = (element) => {
+        const startDay = 10 * 60
+        const readyStartElement = startSelectedHour * 60
+        const readyEndElement = (endSelectedHour * 60) + endSelectedMinutes
+        const startTimeElement = element.first.startHour * 60
+        const endTimeElement = (element.first.endHour * 60) + element.first.endMinutes
+
+        if (endTimeElement) {
 
         }
-        navigate('Home')
+    }
+    const saveEntry = (data) => {
+        let element = Object.values(data)
+        let findElement = Object.values(data).find(data => data.day == choseAllDate.format('L'))
+
+        // console.log('check',check)
+
+        if (check) {
+            if (startSelectedHour === endSelectedHour && startSelectedMinutes === endSelectedMinutes) {
+                alert('Запись должна различаться хотя бы на одну минуту')
+            } else {
+                for (let i = 0; i < element.length;i++) {
+                    if (findElement) {
+
+
+
+                        if (element[i].day === choseAllDate.format('L')) {
+                            if (element[i].hasOwnProperty('second')) {
+                                // console.log('element[i]',element[i])
+
+                                // let third = count('second','third',element[i])
+                                // dispatch(addEntry(third))
+                            } else if (element[i].hasOwnProperty('first')) {
+
+                                if (checkTime(element[i])) {
+
+                                }
+
+                                // let second = count('first','second',element[i])
+                                // dispatch(addEntry(second))
+                            }
+                        }
+
+
+
+                    } else {
+                        // let first = count('first','first',element[i])
+                        // dispatch(addEntry(first))
+                    }
+                }
+                // navigate('Home')
+            }
+
+        } else {
+            alert('Начальное время не может быть больше конечного')
+        }
+
     }
 
     const minutes = () => {
@@ -68,6 +152,8 @@ const DetailScreen = (props) => {
          const doubled = arr.map((number,index) => <Picker.Item label={number.toString()} key={`${number}minutes`} value={number} />);
         return doubled
     }
+
+
 
     return (
         <View style={{  alignItems: 'center', justifyContent: 'center' }}>
@@ -82,7 +168,7 @@ const DetailScreen = (props) => {
                 <Picker
                     selectedValue={startSelectedHour}
                     style={{ height: 20, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setStartSelectedHour(itemValue)}
+                    onValueChange={(itemValue, itemIndex) => setStartHour(itemValue) }
                 >
                     <Picker.Item key={'10hour'} label="10" value='10' />
                     <Picker.Item key={'11hour'} label="11" value="11" />
@@ -99,7 +185,7 @@ const DetailScreen = (props) => {
                 <Picker
                     selectedValue={startSelectedMinutes}
                     style={{ height: 20, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setStartSelectedMinutes(itemValue)}
+                    onValueChange={(itemValue, itemIndex) => setStartMinutes(itemValue)}
                 >
                     {minutes()}
                 </Picker>
@@ -109,7 +195,7 @@ const DetailScreen = (props) => {
                 <Picker
                     selectedValue={endSelectedHour}
                     style={{ height: 20, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setEndSelectedHour(itemValue)}
+                    onValueChange={(itemValue, itemIndex) => setEndHour(itemValue)}
                 >
                     <Picker.Item label="10" value='10' />
                     <Picker.Item label="11" value="11" />
@@ -126,7 +212,7 @@ const DetailScreen = (props) => {
                 <Picker
                     selectedValue={endSelectedMinutes}
                     style={{ height: 50, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setEndSelectedMinutes(itemValue)}
+                    onValueChange={(itemValue, itemIndex) => setEndMinutes(itemValue)}
                 >
                     {minutes()}
                 </Picker>

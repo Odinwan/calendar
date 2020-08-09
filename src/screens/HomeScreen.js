@@ -11,7 +11,7 @@ import MonthComponent from "../components/MonthCalendar/MonthComponent";
 
 const HomeScreen = (props) => {
 
-    const [tub, setTub] = useState('месяц')
+    const [tub, setTub] = useState('день')
 
     const onPress = (choseTub) => {
         setTub(choseTub)
@@ -22,7 +22,7 @@ const HomeScreen = (props) => {
             <View style={{backgroundColor: 'white'}}>
                 <Header props={props} />
                 <Tubs tub={tub} onPress={onPress}/>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row' }}>
                     <ContentAnimate tub={tub} type={'день'}>
                         <View style={{width: tub === 'день' ? '100%' : 0}}>
                             <DayComponent />

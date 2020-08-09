@@ -16,6 +16,8 @@ import {addAllDayMonth, choseAllDate, choseWeekArr, choseWeekDay} from "../../ac
 import TimeLine from "../dayCalendar/TimeLine";
 import TimeLineWeek from "./TimeLineWeek";
 let deviceWidth = Dimensions.get('window').width
+const screenHeight = Dimensions.get('window').height
+
 
 const WeekComponent = (props) => {
     const dispatch = useDispatch()
@@ -42,7 +44,7 @@ const WeekComponent = (props) => {
         }
     },[activeDay])
 
-    const recreateMass = async (mass) => {
+    const reCreateMass = async (mass) => {
 
         let temp = []
         for (let i = 0; i < mass.length; i++) {
@@ -121,7 +123,7 @@ const WeekComponent = (props) => {
             }
             dates.push(startDate.clone().toDate());
         }
-        recreateMass(weeks)
+        reCreateMass(weeks)
         return weeks
     }
 
@@ -166,7 +168,7 @@ const WeekComponent = (props) => {
 
     const renderDaysOfWeek = () => {
         let weeks = weeks_in_month()
-        return weeks[daysOfWeek].map(item => <TouchableOpacity onPress={() => setActiveDay(item.toString().substring(8, 10))} style={{borderColor: 'rgb(206,206,206)',borderRightWidth: 1,width:widthItem() ,alignItems: 'center',justifyContent: 'center',backgroundColor: activeDay == item.toString().substring(8, 10)? 'rgb(2, 122, 255)' : 'white'}}>
+        return weeks[daysOfWeek].map((item,index) => <TouchableOpacity key={`${index}  renderDaysOfWeek`} onPress={() => setActiveDay(item.toString().substring(8, 10))} style={{borderColor: 'rgb(206,206,206)',borderRightWidth: 1,width:widthItem() ,alignItems: 'center',justifyContent: 'center',backgroundColor: activeDay == item.toString().substring(8, 10)? 'rgb(2, 122, 255)' : 'white'}}>
             <View style={{flexDirection: 'row'}}>
                 <Text style={{color: activeDay == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(0, 3)}</Text>
                 <Text style={{color: activeDay == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(8, 10)}</Text>
@@ -202,11 +204,11 @@ const WeekComponent = (props) => {
                 </View>
 
             </View>
+            <View style={styles.container}>
             <ScrollView style={styles.scrollView}>
-                <View style={styles.container}>
                     <TimeLineWeek />
-                </View>
             </ScrollView>
+            </View>
         </View>
     )
 }
@@ -216,6 +218,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
     },
     container: {
+        height: screenHeight - 250,
         marginBottom: '140%',
     },
     wrapperWeek: {

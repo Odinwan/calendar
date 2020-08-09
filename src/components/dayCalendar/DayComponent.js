@@ -13,6 +13,8 @@ import moment from "moment";
 import TimeLine from "./TimeLine";
 import {useDispatch, useSelector} from "react-redux";
 import {choseAllDate, choseDay} from "../../actions/actions";
+import {Dimensions} from "react-native";
+const screenHeight = Dimensions.get('window').height
 
 
 const DayComponent = (props) => {
@@ -65,7 +67,7 @@ const DayComponent = (props) => {
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index.toString()}
                     data={ getDaysArrayByMonth(true)}
-                    renderItem={({item}) => <View  style={[styles.item,activeDay === item.format('D') ? styles.itemActive : null]}>
+                    renderItem={({item,index}) => <View key={`${index}  getDaysArrayByMonth`} style={[styles.item,activeDay === item.format('D') ? styles.itemActive : null]}>
                         <TouchableOpacity onPress={() => clickDay(item)}>
                             <View style={{flexDirection: 'row',justifyContent: 'space-evenly'}}>
                                 <Text style={{color: activeDay === item.format('D')? 'white' : 'black' }}>{item.format('D')}</Text>
@@ -76,15 +78,14 @@ const DayComponent = (props) => {
                     </View>}
                 />
             </View>
-            <ScrollView style={styles.scrollView}>
-                <View style={styles.container}>
-                    <TimeLine state={'день'}/>
-                </View>
-            </ScrollView>
+            <View style={{height: screenHeight - 200}}>
+                <ScrollView style={styles.scrollView}>
+                    <TimeLine />
+                </ScrollView>
+            </View>
         </View>
     )
 }
-
 const styles = StyleSheet.create({
     scrollView: {
         backgroundColor: '#eee',

@@ -69,17 +69,14 @@ const TimeLineWeek = (props) => {
         }
 
         let mass = workHour.map((element,index) =>
-            <>
-                <View key={element} style={styles.wreapperItem}>
+                <View key={`${index}  renderMainTable`}  style={styles.wreapperItem}>
                     <View style={{width: 50,borderRightWidth: 1,borderColor:'rgb(206,206,206)'}}>
                         <Text style={{textAlign: 'center',marginTop: -10}}>{element == '10:00'?null:element}</Text>
                     </View>
                     <View style={{flexDirection: 'row',borderBottomColor: 'rgb(206,206,206)',borderBottomWidth:1}}>
-                        {renderTable().map((item, index) => <View style={{width: widthItem(),borderRightWidth:1,borderColor:'rgb(206,206,206)'}}></View>)}
+                        {renderTable().map((item, index) => <View key={`${index}  renderTable`} style={{width: widthItem(),borderRightWidth:1,borderColor:'rgb(206,206,206)'}}></View>)}
                     </View>
                 </View>
-
-            </>
         )
         return mass
     }
@@ -91,8 +88,7 @@ const TimeLineWeek = (props) => {
                 if (choseWeekArr[choseWeekIndex][i].length != 0) {
                     const date = choseWeekArr[choseWeekIndex][i][0]
                     if (date.format('L') == Object.keys(data)[k]) {
-
-                        mass.push(preRender(data[Object.keys(data)[k]]))
+                        mass.push(preRender(data[Object.keys(data)[k]],i))
                     }
                 }
 
@@ -100,22 +96,22 @@ const TimeLineWeek = (props) => {
         }
         return mass
     }
-    const preRender = (element) => {
+    const preRender = (element,index) => {
         let mass = []
 
         if (element.hasOwnProperty('third')) {
-            mass.push(renderMess(element.third,element.day))
+            mass.push(renderMess(element.third,element.day,index))
         }
         if (element.hasOwnProperty('second')) {
-            mass.push(renderMess(element.second,element.day))
+            mass.push(renderMess(element.second,element.day,index))
         }
         if (element.hasOwnProperty('first')) {
-            mass.push(renderMess(element.first, element.day))
+            mass.push(renderMess(element.first, element.day,index))
         }
 
         return mass
     }
-    const renderMess = (element,day) => {
+    const renderMess = (element,day,index) => {
 
             const timeOffset = (element) => {
                 let procentPath = (element.startMinutes / 60) * 150
@@ -125,12 +121,6 @@ const TimeLineWeek = (props) => {
 
             const heightMess = (element) => {
                 const check = () => {
-                    // if (element.endMinutes < element.startMinutes) {
-                    //     return 60 - element.startMinutes
-                    // } else {
-                    //
-                    // }
-
                     return element.endMinutes - element.startMinutes
                 }
 
@@ -157,7 +147,7 @@ const TimeLineWeek = (props) => {
 
             return (
             <TouchableOpacity
-                key={day}
+                key={`${index}  renderMess`}
                 onPress={() => alert('text')}
                 style={{
                     position: 'absolute',
