@@ -12,11 +12,7 @@ import {
 import moment from "moment";
 import {useDispatch, useSelector} from "react-redux";
 import {choseAllDate, choseWeekDay,choseDay} from "../../actions/actions";
-import {black, blue, lightBlue, lightWhite, white} from "../../core/const";
-const screenHeight = Dimensions.get('window').height
-
-
-let deviceWidth = Dimensions.get('window').width
+import {black, lightBlue, lightWhite, white,deviceWidth, screenHeight} from "../../core/const";
 
 const widthItem = () => {
     return (deviceWidth / 7) - 10
@@ -73,7 +69,6 @@ const MonthComponent = (props) => {
     const pressDay = (item, indexWeek) => {
         dispatch(choseAllDate(item))
         dispatch(choseWeekDay(indexWeek))
-        console.log('item.format(D)',item.format('D'))
         dispatch(choseDay(item.format('D')))
         props.setTub('день')
     }

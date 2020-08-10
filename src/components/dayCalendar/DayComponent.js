@@ -13,8 +13,8 @@ import moment from "moment";
 import TimeLine from "./TimeLine";
 import {useDispatch, useSelector} from "react-redux";
 import {choseAllDate, choseDay} from "../../actions/actions";
-import {Dimensions} from "react-native";
-const screenHeight = Dimensions.get('window').height
+import { screenHeight } from '../core/const';
+
 
 
 const DayComponent = (props) => {
@@ -28,14 +28,6 @@ const DayComponent = (props) => {
     if (Date === '') {
         dispatch(choseAllDate(moment()))
     }
-
-    useEffect(()=> {
-        console.log('activeDay',activeDay)
-        console.log('activeDay',day)
-        // setActiveDay(day)
-        // console.log('activeDay',activeDay)
-        // console.log('activeDay',day)
-    })
 
     const clickDay = (item) => {
         dispatch(choseAllDate(item))

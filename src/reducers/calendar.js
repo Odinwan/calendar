@@ -11,7 +11,7 @@ const initialState = {
       '08/06/2020' : {day:'08/06/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:30, message: "Useless Placeholder"}},
       '08/07/2020' : {day:'08/07/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
       '08/08/2020' : {day:'08/08/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
-      '08/09/2020' : {day:'08/09/2020',first : { entry:'first',startHour: 11,startMinutes: 0, endHour: 11, endMinutes:59, message: "Uselessasff Placeholder"},second : { entry:'second',startHour: 13,startMinutes: 0, endHour: 13, endMinutes:59, message: "Uselessasff Placeholder"}},
+      '08/09/2020' : {day:'08/09/2020',first : { entry:'first',startHour: 11,startMinutes: 0, endHour: 11, endMinutes:59, message: "Uselessasff Placeholder"}},
       '08/10/2020' : {day:'08/10/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:30, message: "Useless Placeholder"}},
       '08/11/2020' : {day:'08/11/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
       '08/12/2020' : {day:'08/12/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
@@ -22,7 +22,6 @@ const initialState = {
 export default function peopleReducer(state = initialState, action) {
   switch (action.type) {
     case CHOSE_DAY:
-      console.log('action.payload',action.payload)
       return {
         ...state,
         choseDay: action.payload
@@ -56,7 +55,6 @@ export default function peopleReducer(state = initialState, action) {
         choseWeekArr: action.payload
       };
     case ADD_ENTRY:
-      console.log('add entry',{[Object.keys(action.payload)[0]] : Object.assign({},state.entryMass[Object.keys(action.payload)[0]],action.payload[Object.keys(action.payload)[0]])})
       return {
         ...state,
         entryMass:  {

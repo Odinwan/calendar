@@ -15,8 +15,6 @@ import {useSelector} from "react-redux";
 const Header = (props) => {
     const {navigation} = props.props
     const choseDay = useSelector(state => state.calendar.choseDay)
-    const choseAllDate = useSelector(state => state.calendar.choseAllDate)
-    const data = useSelector(state => state.calendar.entryMass)
     const onPress = () => {
        navigation.navigate('Details',{
             day: choseDay
@@ -24,7 +22,7 @@ const Header = (props) => {
     }
 
     return <View style={styles.container}>
-        <View><Text style={styles.title}>{choseAllDate ? choseAllDate.format('D MMM YYYY') : `Записи`}</Text></View>
+        <View><Text style={styles.title}>Записи</Text></View>
 
         <View style={styles.containerBut}>
             <TouchableOpacity  style={styles.plus} onPress={() => onPress()} >

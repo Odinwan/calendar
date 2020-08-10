@@ -6,7 +6,7 @@ import {useState} from "react";
 import ContentAnimate from "../components/ContentAnimate";
 import DayComponent from "../components/dayCalendar/DayComponent";
 import WeekComponent from "../components/weekCalendar/WeekComponent";
-import MonthComponent from "../components/MonthCalendar/MonthComponent";
+import MonthComponent from "../components/monthCalendar/MonthComponent";
 
 
 const HomeScreen = (props) => {

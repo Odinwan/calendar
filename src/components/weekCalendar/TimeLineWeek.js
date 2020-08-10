@@ -5,14 +5,10 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
     TouchableOpacity,
-    ScrollView, FlatList, Picker, Dimensions,
 } from 'react-native';
-import moment from "moment";
 import {useSelector} from "react-redux";
-
-let deviceWidth = Dimensions.get('window').width
+import {deviceWidth} from "../../core/const";
 
 const TimeLineWeek = (props) => {
 
@@ -107,7 +103,7 @@ const TimeLineWeek = (props) => {
         if (element.hasOwnProperty('first')) {
             mass.push(renderMess(element.first, element.day,index,element.first.entry))
         }
-        console.log('mass',mass)
+
         return mass
     }
     const renderMess = (element,day,index,countMess) => {

@@ -12,39 +12,36 @@ import {
 import moment from "moment";
 import { Dimensions } from 'react-native'
 import {useDispatch, useSelector} from "react-redux";
-import {addAllDayMonth, choseAllDate, choseWeekArr, choseWeekDay} from "../../actions/actions";
-import TimeLine from "../dayCalendar/TimeLine";
+import {addAllDayMonth, choseAllDate, choseWeekArr, choseWeekDay,choseDay} from "../../actions/actions";
 import TimeLineWeek from "./TimeLineWeek";
-let deviceWidth = Dimensions.get('window').width
-const screenHeight = Dimensions.get('window').height
+import { deviceWidth, screenHeight } from '../core/const';
+
 
 
 const WeekComponent = (props) => {
+
     const {navigation} = props.props
     const dispatch = useDispatch()
     const day = useSelector(state => state.calendar.choseDay)
 
     const Date = useSelector(state => state.calendar.choseDay)
     const allDayMonth = useSelector(state => state.calendar.allDayMonth)
-    
+
     const [activeWeek,setActiveWeek] = useState('')
     const [daysOfWeek,setDaysOfWeek] = useState(0)
 
     useEffect(() => {
         weeks_in_month()
-        setActiveDay(moment().format('D'))
-    },[])
-
-    useEffect(() => {
         const allDays = getDaysArrayByMonth()
         dispatch(addAllDayMonth(allDays))
 
         for (let i = 0; i < allDays.reverse().length; i++) {
-            if (activeDay == allDays[i].format('DD')) {
+            if (day == allDays[i].format('DD')) {
                 dispatch(choseAllDate(allDays[i]))
             }
         }
-    },[activeDay])
+    },[])
+
 
     const reCreateMass = async (mass) => {
 
@@ -136,21 +133,24 @@ const WeekComponent = (props) => {
         for (let i = 0; i < weeks.length;i++) {
             mass.push(weekRender(weeks[i],weeks))
         }
+        const activeMonth = (firstIitem,secondItem,activeWeek) => {
+            return activeWeek == `${firstIitem} - ${secondItem === undefined ? firstIitem: secondItem}`
+        }
         const weekView = mass.map((item,index) => <TouchableOpacity
             onPress={() => setData(item,index)}
              style={{width: 100, height: 50,alignItems: 'center'}}>
-            <View style={{borderRightWidth:1,borderColor: 'rgb(206,206,206)',justifyContent: 'center',height: '100%',width: '100%',backgroundColor: activeWeek == `${item[0]} - ${item[1] === undefined ? item[0]: item[1]}`? 'rgb(2, 122, 255)' : 'white'}}>
+            <View style={[styles.wrapperWeeks,{backgroundColor: activeMonth(item[0],item[1],activeWeek) ? 'rgb(2, 122, 255)' : 'white'}]}>
                 <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                    <Text style={{color:activeWeek == `${item[0]} - ${item[1] === undefined ? item[0]: item[1]}`? 'white' : 'black'}}>{item[0]}</Text>
-                    <Text style={{color:activeWeek == `${item[0]} - ${item[1] === undefined ? item[0]: item[1]}`? 'white' : 'black'}}>-</Text>
-                    <Text style={{color:activeWeek == `${item[0]} - ${item[1] === undefined ? item[0]: item[1]}`? 'white' : 'black'}}>{item[1] === undefined ? item[0]: item[1]}</Text>
+                    <Text style={{color: activeMonth(item[0],item[1],activeWeek) ? 'white' : 'black'}}>{item[0]}</Text>
+                    <Text style={{color: activeMonth(item[0],item[1],activeWeek) ? 'white' : 'black'}}>-</Text>
+                    <Text style={{color: activeMonth(item[0],item[1],activeWeek) ? 'white' : 'black'}}>{item[1] === undefined ? item[0]: item[1]}</Text>
                 </View>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-evenly'
                 }}>
-                    <Text style={{color:activeWeek == `${item[0]} - ${item[1] === undefined ? item[0]: item[1]}`? 'white' : 'black'}}>{moment().format("MMMM")}.,</Text>
-                    <Text style={{color:activeWeek == `${item[0]} - ${item[1] === undefined ? item[0]: item[1]}`? 'white' : 'black'}}>{moment().format("YYYY")}</Text>
+                    <Text style={{color: activeMonth(item[0],item[1],activeWeek) ? 'white' : 'black'}}>{moment().format("MMMM")}.,</Text>
+                    <Text style={{color: activeMonth(item[0],item[1],activeWeek) ? 'white' : 'black'}}>{moment().format("YYYY")}</Text>
                 </View>
             </View>
         </TouchableOpacity>)
@@ -216,6 +216,7 @@ const WeekComponent = (props) => {
 }
 
 const styles = StyleSheet.create({
+    wrapperWeeks: {borderRightWidth:1,borderColor: 'rgb(206,206,206)',justifyContent: 'center',height: '100%',width: '100%'},
     scrollView: {
         backgroundColor: '#eee',
     },

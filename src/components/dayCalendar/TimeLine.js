@@ -1,15 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 
 import {
     StyleSheet,
     Text,
     View,
-    Image,
     TouchableOpacity,
-    ScrollView, FlatList, Picker,
 } from 'react-native';
-import moment from "moment";
 import {useSelector} from "react-redux";
 
 
@@ -89,7 +86,7 @@ const TimeLine = (props) => {
                      mess: countMess
                  }) 
              }
-            return <TouchableOpacity key={`${index}  getDaysArrayByMonth`} onPress={() => onPress(day,countMess)} style={[{left: 50,zindex:20 ,position: 'absolute',top: timeOffset(element)},styles.entry]}>
+            return <TouchableOpacity key={`${index}  getDaysArrayByMonth`} onPress={() => onPress(day,countMess)} style={[{top: timeOffset(element)},styles.entry]}>
                 <View style={[{zIndex: 200,backgroundColor: 'rgb(93,217,114)',minHeight: heightMess(element)},styles.themeMess]}>
                     <Text style={{color: 'white'}}>{element.message}</Text>
                 </View>
@@ -102,7 +99,7 @@ const TimeLine = (props) => {
 
 const styles = StyleSheet.create({
     wreapperItem: {height: 150,flexDirection: "row",borderBottomWidth: 1,borderBottomColor: 'black',zIndex: 1},
-    entry: {width: '100%',paddingRight: 105,paddingVertical: 5,paddingLeft: 5,zIndex: 20},
+    entry: {width: '100%',paddingRight: 105,paddingVertical: 5,paddingLeft: 5,zIndex: 20,left: 50,position: 'absolute'},
     wrapperNumberDay: {width: 50,backgroundColor: 'rgb(249, 249, 249)'},
     themeMess: {padding: 5,borderRadius: 5,maxHeight: 175}
 });

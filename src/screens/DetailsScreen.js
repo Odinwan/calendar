@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { TextInput, ScrollView,TouchableOpacity, Text, View, StyleSheet ,Dimensions} from "react-native";
-import { Picker } from '@react-native-community/picker'
+import { TextInput, ScrollView,TouchableOpacity, Text, View, StyleSheet} from "react-native";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addEntry } from "../actions/actions";
-import { blue } from '../core/const';
+import { blue, height } from '../core/const';
 
-let height = Dimensions.get('window').height
 
 const DetailScreen = (props) => {
     const choseAllDate = useSelector(state => state.calendar.choseAllDate)
@@ -20,7 +18,7 @@ const DetailScreen = (props) => {
     const [valueMess, onChangeText] = React.useState('Useless Placeholder');
     const [check, setCheck] = React.useState(true);
     const dispatch = useDispatch()
-
+ 
     useEffect(() => {
         if (endSelectedHour <= startSelectedHour) {
             setCheck(true)
@@ -31,7 +29,6 @@ const DetailScreen = (props) => {
 
     useEffect(() => {
         if (endSelectedHour >= startSelectedHour) {
-            console.log('in')
             setCheck(true)
         } else {
             setCheck(false)
@@ -54,7 +51,6 @@ const DetailScreen = (props) => {
         }
     }
     const setStartHour = (itemValue) => {
-        console.log('', itemValue)
         setStartSelectedHour(itemValue)
     }
 
@@ -73,15 +69,13 @@ const DetailScreen = (props) => {
     const checkWithFirstEntry = (first, second) => {
         const startDay = 10 * 60
         const endDay = 20 * 60
-        const newStartElement = Number(startSelectedHour) * 60
+        const newStartElement = ((Number(startSelectedHour) * 60) + Number(startSelectedMinutes))
         const newEndElement = ((Number(endSelectedHour) * 60) + Number(endSelectedMinutes))
-        const oldFirstStart = Number(first.startHour) * 60
+        const oldFirstStart = ((Number(first.startHour) * 60) + Number(first.startMinutes))
         const oldFirstEnd = (Number(first.endHour) * 60) + Number(first.endMinutes)
 
-
-
         if (second) {
-            const oldSecondStart = Number(second.startHour) * 60
+            const oldSecondStart = ((Number(second.startHour) * 60) + Number(second.startMinutes))
             const oldSecondEnd = (Number(second.endHour) * 60) + Number(second.endMinutes)
             if (oldSecondEnd > oldFirstEnd) {
                 if (startDay <= newStartElement && newEndElement <= oldFirstStart ||
@@ -90,14 +84,7 @@ const DetailScreen = (props) => {
                     alert('Запись добавлена')
                     return true
                 } else {
-                    console.log(`
-                    startDay <= newStartElement && newEndElement <= oldFirstStart ||
-                    ${startDay} <= ${newStartElement} && ${newEndElement} <= ${oldFirstStart} ||
-                    oldFirstEnd <= newStartElement && newEndElement <= oldSecondStart ||
-                    ${oldFirstEnd} <= ${newStartElement} && ${newEndElement} <= ${oldSecondStart} ||
-                    oldSecondEnd <= newStartElement && newEndElement <= endDay
-                    ${oldSecondEnd} <= ${newStartElement} && ${newEndElement} <= ${endDay}`)
-                    alert(`Запись не может быть тут установленна first second `)
+                    alert(`Запись не может быть тут установленна`)
                     return false
                 }
             } else {
@@ -107,16 +94,16 @@ const DetailScreen = (props) => {
                     alert('Запись добавлена')
                     return true
                 } else {
-                    alert('Запись не может быть тут установленна second first')
+                    alert('Запись не может быть тут установленна')
                     return false
                 }
             }
         } else {
-            if (newStartElement => oldFirstEnd || newEndElement <= oldFirstStart) {
+            if (startDay <= newStartElement && newEndElement <= oldFirstStart || oldFirstEnd <= newStartElement && newEndElement  <= endDay) {
                 alert('Запись добавлена')
                 return true
             } else {
-                alert('Запись не может быть тут установленна second')
+                alert('Запись не может быть тут установленна')
                 return false
             }
         }
@@ -150,7 +137,7 @@ const DetailScreen = (props) => {
                             }
                         }
                     } else {
-                        let first = count('first', 'first', element[i])
+                        let first = count('first', element[i])
                         dispatch(addEntry(first))
                         navigate('Home')
                     }
@@ -158,27 +145,15 @@ const DetailScreen = (props) => {
 
             }
         } else {
-            console.log(`${startSelectedHour} == ${endSelectedHour} && ${startSelectedMinutes} == ${endSelectedMinutes}`)
             alert('Начальное время не может быть больше конечного')
         }
 
     }
 
-    const minutes = () => {
-        let arr = []
-        for (let i = 0; i < 60; i++) {
-            arr.push(i)
-        }
-        const doubled = arr.map((number, index) => <Picker.Item label={number.toString()} key={`${number}minutes`} value={number} />);
-        return doubled
-    }
-
-
-
     return (
-        <View style={{backgroundColor: 'white',alignItems: 'center',position: 'relative'}}>
+        <View style={styles.wrapperDetail}>
         <ScrollView >
-            <View style={{ alignItems: 'center', justifyContent: 'center' ,height: height + 300}}>
+            <View style={styles.mainWrapper}>
             <Text>С какого времни начало записи :</Text> 
             <View style={styles.wrapperInput}>
                 <TextInput
@@ -248,6 +223,8 @@ const DetailScreen = (props) => {
 export default DetailScreen
 
 const styles = StyleSheet.create({
+    wrapperDetail: {backgroundColor: 'white',alignItems: 'center',position: 'relative'},
+    mainWrapper: { alignItems: 'center', justifyContent: 'center' ,height: height + 300},
     wrapperInput: {
         position: 'relative'
     },
@@ -257,7 +234,6 @@ const styles = StyleSheet.create({
     input: {
         borderRadius: 5,
         marginBottom: 20,
-        height: 40,
         borderColor: 'gray',
         borderWidth: 1,
         minWidth: '90%',
