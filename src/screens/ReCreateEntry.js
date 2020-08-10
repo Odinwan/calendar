@@ -181,7 +181,7 @@ const ReCreateEntry = (props) => {
     return (
         <View style={styles.wrapperReCreate}>
         <ScrollView >
-            <View style={style.mainWrapper}>
+            <View style={styles.mainWrapper}>
             <Text>С какого времни начало записи :</Text> 
             <View style={styles.wrapperInput}>
                 <TextInput

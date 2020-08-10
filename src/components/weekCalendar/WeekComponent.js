@@ -14,7 +14,7 @@ import { Dimensions } from 'react-native'
 import {useDispatch, useSelector} from "react-redux";
 import {addAllDayMonth, choseAllDate, choseWeekArr, choseWeekDay,choseDay} from "../../actions/actions";
 import TimeLineWeek from "./TimeLineWeek";
-import { deviceWidth, screenHeight } from '../core/const';
+import { deviceWidth, screenHeight } from '../../core/const';
 
 
 

@@ -103,11 +103,12 @@ const TimeLineWeek = (props) => {
         if (element.hasOwnProperty('first')) {
             mass.push(renderMess(element.first, element.day,index,element.first.entry))
         }
-
+        console.log('index',index)
+        console.log('mass',mass)
         return mass
     }
     const renderMess = (element,day,index,countMess) => {
-
+            console.log(index)
             const timeOffset = (element) => {
                 let procentPath = (element.startMinutes / 60) * 150
                 let procent = (element.startHour - 10) * 150 + procentPath

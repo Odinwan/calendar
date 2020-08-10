@@ -13,7 +13,7 @@ import moment from "moment";
 import TimeLine from "./TimeLine";
 import {useDispatch, useSelector} from "react-redux";
 import {choseAllDate, choseDay} from "../../actions/actions";
-import { screenHeight } from '../core/const';
+import { screenHeight } from '../../core/const';
 
 
 
