@@ -42,14 +42,14 @@ const DayComponent = (props) => {
         var arrDays = [];
         while(daysInMonth) {
             var current = moment().date(daysInMonth);
-
-            if(fromNow){
-                if(moment().isSameOrBefore(current)){
-                    arrDays.push(current);
-                }
-            }else{
-                arrDays.push(current);
-            }
+            arrDays.push(current);
+            // if(fromNow){
+            //     if(moment().isSameOrBefore(current)){
+            //         arrDays.push(current);
+            //     }
+            // }else{
+               
+            // }
             daysInMonth--;
         }
         return arrDays.reverse();

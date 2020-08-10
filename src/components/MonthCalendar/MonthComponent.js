@@ -26,7 +26,8 @@ const width = () => {
     return deviceWidth - 40
 }
 
-const MonthComponent = () => {
+const MonthComponent = (props) => {
+    const {navigation} = props.props
     const dispatch = useDispatch()
     const weekIndex = useSelector(state => state.calendar.choseWeekIndex)
     const choseDate = useSelector(state => state.calendar.choseAllDate)
@@ -72,6 +73,7 @@ const MonthComponent = () => {
     const pressDay = (item, indexWeek) => {
         dispatch(choseAllDate(item))
         dispatch(choseWeekDay(indexWeek))
+        props.setTub('день')
     }
 
     const countMess = (check, item) => {

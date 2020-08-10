@@ -84,15 +84,14 @@ const TimeLineWeek = (props) => {
     const renderArrMess = () => {
         var mass = []
         for (let i = 0;i < choseWeekArr[choseWeekIndex].length; i++) {
-            // for (let k = 0; k < Object.keys(data).length; k++) {
-            //     if (choseWeekArr[choseWeekIndex][i].length != 0) {
-            //         const date = choseWeekArr[choseWeekIndex][i][0]
-            //         if (date.format('L') === Object.keys(data)[k]) {
-            //             mass.push(preRender(data[Object.keys(data)[k]],i))
-            //         }
-            //     }
-
-            // }
+            for (let k = 0; k < Object.keys(data).length; k++) {
+                if (choseWeekArr[choseWeekIndex][i].length != 0) {
+                    const date = choseWeekArr[choseWeekIndex][i][0]
+                    if (date.format('L') === Object.keys(data)[k]) {
+                        mass.push(preRender(data[Object.keys(data)[k]],i))
+                    }
+                }
+            }
         }
         return mass
     }
@@ -108,7 +107,7 @@ const TimeLineWeek = (props) => {
         if (element.hasOwnProperty('first')) {
             mass.push(renderMess(element.first, element.day,index,element.first.entry))
         }
-
+        console.log('mass',mass)
         return mass
     }
     const renderMess = (element,day,index,countMess) => {

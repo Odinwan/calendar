@@ -35,7 +35,7 @@ const HomeScreen = (props) => {
                     </ContentAnimate>
                     <ContentAnimate tub={tub} type={'месяц'}>
                         <View style={{width: tub === 'месяц' ? '100%' : 0}}>
-                        {tub === 'месяц'?<MonthComponent props={props} />:null}
+                        {tub === 'месяц'?<MonthComponent props={props} setTub={setTub} />:null}
                         </View>
                     </ContentAnimate>
                 </View>

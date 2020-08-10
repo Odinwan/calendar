@@ -12,9 +12,10 @@ const initialState = {
       '08/07/2020' : {day:'08/07/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
       '08/08/2020' : {day:'08/08/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
       '08/09/2020' : {day:'08/09/2020',first : { entry:'first',startHour: 11,startMinutes: 0, endHour: 11, endMinutes:59, message: "Uselessasff Placeholder"},second : { entry:'second',startHour: 13,startMinutes: 0, endHour: 13, endMinutes:59, message: "Uselessasff Placeholder"}},
-      '08/10/2020' : {day:'08/10/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 11, endMinutes:0, message: "Uselessasff Placeholder"},second : { entry:'second',startHour: 13,startMinutes: 0, endHour: 14, endMinutes:0, message: "Uselessasff Placeholder"},third : { entry:'third',startHour: 11,startMinutes: 0, endHour: 12, endMinutes:0, message: "Uselessasff Placeholder"}},
+      '08/10/2020' : {day:'08/10/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:30, message: "Useless Placeholder"}},
       '08/11/2020' : {day:'08/11/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
-      '08/12/2020' : {day:'08/12/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"},second : { entry:'second',startHour: 13,startMinutes: 0, endHour: 13, endMinutes:59, message: "Uselessasff Placeholder"}}
+      '08/12/2020' : {day:'08/12/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
+      '08/15/2020' : {day:'08/15/2020',first : { entry:'first',startHour: 11,startMinutes: 0, endHour: 11, endMinutes:59, message: "Uselessasff Placeholder"}},
     }
 }
 
