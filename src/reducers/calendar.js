@@ -1,5 +1,5 @@
 
-import { CHOSE_DAY,CHOSE_ALL_DATE,ADD_ENTRY,CHOSE_WEEK_INDEX,CHOSE_WEEK_ARR,ADD_ALL_DAY_MONTH } from '../../constants';
+import { CHOSE_DAY,CHOSE_ALL_DATE,ADD_ENTRY,CHOSE_WEEK_INDEX,CHOSE_WEEK_ARR,ADD_ALL_DAY_MONTH,DELETE_ENTRY } from '../../constants';
 
 const initialState = {
   choseDay: '',
@@ -11,9 +11,10 @@ const initialState = {
       '08/06/2020' : {day:'08/06/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:30, message: "Useless Placeholder"}},
       '08/07/2020' : {day:'08/07/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
       '08/08/2020' : {day:'08/08/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
-      '08/09/2020' : {day:'08/09/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
-      '08/10/2020' : {day:'08/10/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
-      '08/11/2020' : {day:'08/11/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}}
+      '08/09/2020' : {day:'08/09/2020',first : { entry:'first',startHour: 11,startMinutes: 0, endHour: 11, endMinutes:59, message: "Uselessasff Placeholder"},second : { entry:'second',startHour: 13,startMinutes: 0, endHour: 13, endMinutes:59, message: "Uselessasff Placeholder"}},
+      '08/10/2020' : {day:'08/10/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 11, endMinutes:0, message: "Uselessasff Placeholder"},second : { entry:'second',startHour: 13,startMinutes: 0, endHour: 14, endMinutes:0, message: "Uselessasff Placeholder"},third : { entry:'third',startHour: 11,startMinutes: 0, endHour: 12, endMinutes:0, message: "Uselessasff Placeholder"}},
+      '08/11/2020' : {day:'08/11/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"}},
+      '08/12/2020' : {day:'08/12/2020',first : { entry:'first',startHour: 10,startMinutes: 0, endHour: 10, endMinutes:59, message: "Uselessasff Placeholder"},second : { entry:'second',startHour: 13,startMinutes: 0, endHour: 13, endMinutes:59, message: "Uselessasff Placeholder"}}
     }
 }
 
@@ -30,6 +31,14 @@ export default function peopleReducer(state = initialState, action) {
         ...state,
         allDayMonth: action.payload
       };
+    case DELETE_ENTRY: 
+        return {
+          ...state,
+          entryMass:  {
+            ...state.entryMass,
+            ...{[Object.keys(action.payload)[0]] : Object.assign({},state.entryMass[Object.keys(action.payload)[0]], delete action.payload[Object.keys(action.payload)[0]])}
+          }
+        }
     case CHOSE_WEEK_INDEX:
       return {
         ...state,
@@ -46,13 +55,13 @@ export default function peopleReducer(state = initialState, action) {
         choseWeekArr: action.payload
       };
     case ADD_ENTRY:
+      console.log('add entry',{[Object.keys(action.payload)[0]] : Object.assign({},state.entryMass[Object.keys(action.payload)[0]],action.payload[Object.keys(action.payload)[0]])})
       return {
         ...state,
         entryMass:  {
           ...state.entryMass,
           ...{[Object.keys(action.payload)[0]] : Object.assign({},state.entryMass[Object.keys(action.payload)[0]],action.payload[Object.keys(action.payload)[0]])}
         }
-
       };
     default:
       return state;

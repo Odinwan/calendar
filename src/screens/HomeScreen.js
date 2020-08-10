@@ -25,17 +25,17 @@ const HomeScreen = (props) => {
                 <View style={{flexDirection: 'row' }}>
                     <ContentAnimate tub={tub} type={'день'}>
                         <View style={{width: tub === 'день' ? '100%' : 0}}>
-                            <DayComponent />
+                        {tub === 'день'?<DayComponent props={props} />:null}
                         </View>
                     </ContentAnimate>
                     <ContentAnimate tub={tub} type={'неделя'}>
                         <View style={{width: tub === 'неделя' ? '100%' : 0}}>
-                            <WeekComponent />
+                        {tub === 'неделя'?<WeekComponent props={props} />:null}
                         </View>
                     </ContentAnimate>
                     <ContentAnimate tub={tub} type={'месяц'}>
                         <View style={{width: tub === 'месяц' ? '100%' : 0}}>
-                            <MonthComponent />
+                        {tub === 'месяц'?<MonthComponent props={props} />:null}
                         </View>
                     </ContentAnimate>
                 </View>

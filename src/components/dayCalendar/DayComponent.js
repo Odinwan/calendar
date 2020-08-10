@@ -18,6 +18,7 @@ const screenHeight = Dimensions.get('window').height
 
 
 const DayComponent = (props) => {
+    const {navigation} = props.props
     const dispatch = useDispatch()
     const Date = useSelector(state => state.calendar.choseAllDate)
     const [activeDay,setActiveDay] = useState('')
@@ -80,7 +81,7 @@ const DayComponent = (props) => {
             </View>
             <View style={{height: screenHeight - 200}}>
                 <ScrollView style={styles.scrollView}>
-                    <TimeLine />
+                    <TimeLine navigation={navigation} />
                 </ScrollView>
             </View>
         </View>

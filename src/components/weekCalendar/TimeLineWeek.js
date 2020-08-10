@@ -84,15 +84,15 @@ const TimeLineWeek = (props) => {
     const renderArrMess = () => {
         var mass = []
         for (let i = 0;i < choseWeekArr[choseWeekIndex].length; i++) {
-            for (let k = 0; k < Object.keys(data).length; k++) {
-                if (choseWeekArr[choseWeekIndex][i].length != 0) {
-                    const date = choseWeekArr[choseWeekIndex][i][0]
-                    if (date.format('L') == Object.keys(data)[k]) {
-                        mass.push(preRender(data[Object.keys(data)[k]],i))
-                    }
-                }
+            // for (let k = 0; k < Object.keys(data).length; k++) {
+            //     if (choseWeekArr[choseWeekIndex][i].length != 0) {
+            //         const date = choseWeekArr[choseWeekIndex][i][0]
+            //         if (date.format('L') === Object.keys(data)[k]) {
+            //             mass.push(preRender(data[Object.keys(data)[k]],i))
+            //         }
+            //     }
 
-            }
+            // }
         }
         return mass
     }
@@ -100,18 +100,18 @@ const TimeLineWeek = (props) => {
         let mass = []
 
         if (element.hasOwnProperty('third')) {
-            mass.push(renderMess(element.third,element.day,index))
+            mass.push(renderMess(element.third,element.day,index,element.third.entry))
         }
         if (element.hasOwnProperty('second')) {
-            mass.push(renderMess(element.second,element.day,index))
+            mass.push(renderMess(element.second,element.day,index,element.second.entry))
         }
         if (element.hasOwnProperty('first')) {
-            mass.push(renderMess(element.first, element.day,index))
+            mass.push(renderMess(element.first, element.day,index,element.first.entry))
         }
 
         return mass
     }
-    const renderMess = (element,day,index) => {
+    const renderMess = (element,day,index,countMess) => {
 
             const timeOffset = (element) => {
                 let procentPath = (element.startMinutes / 60) * 150
@@ -144,11 +144,17 @@ const TimeLineWeek = (props) => {
                     }
                 }
             }
+            const onPress = (day,countMess) => {
+                props.navigation.navigate('ReCreateEntry',{
+                     day: day,
+                     mess: countMess
+                 }) 
+             }
 
             return (
             <TouchableOpacity
                 key={`${index}  renderMess`}
-                onPress={() => alert('text')}
+                onPress={() => onPress(day,countMess)}
                 style={{
                     position: 'absolute',
                     zIndex:20,

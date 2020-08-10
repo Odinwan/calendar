@@ -13,7 +13,7 @@ import moment from "moment";
 import {useSelector} from "react-redux";
 
 
-const TimeLine = () => {
+const TimeLine = (props) => {
 
     const choseAllDate = useSelector(state => state.calendar.choseAllDate)
     const data = useSelector(state => state.calendar.entryMass)
@@ -37,13 +37,13 @@ const TimeLine = () => {
                     </View>
                 </View>
                 {elementInner.hasOwnProperty('third') && element == elementInner.third.startHour ?
-                    renderMess(elementInner.third,index)
+                    renderMess(elementInner.third,index,elementInner.day,'third')
                     : null }
                 {elementInner.hasOwnProperty('second') && element == elementInner.second.startHour ?
-                    renderMess(elementInner.second,index)
+                    renderMess(elementInner.second,index,elementInner.day,'second')
                     : null }
                 {elementInner.hasOwnProperty('first') && element == elementInner.first.startHour ?
-                    renderMess(elementInner.first,index)
+                    renderMess(elementInner.first,index,elementInner.day,'first')
                     : null }
             </>
         )
@@ -64,7 +64,7 @@ const TimeLine = () => {
 
 
 
-    const renderMess = (element,index) => {
+    const renderMess = (element,index,day,countMess) => {
             const timeOffset = (element) => {
                 let procentPath = (element.startMinutes / 60) * 150
                 let procent = (element.startHour - 10) * 150 + procentPath
@@ -83,8 +83,13 @@ const TimeLine = () => {
                 }
 
             }
-
-            return <TouchableOpacity key={`${index}  getDaysArrayByMonth`} onPress={() => alert(`${element.message}`)} style={[{left: 50,zindex:20 ,position: 'absolute',top: timeOffset(element)},styles.entry]}>
+            const onPress = (day,countMess) => {
+                props.navigation.navigate('ReCreateEntry',{
+                     day: day,
+                     mess: countMess
+                 }) 
+             }
+            return <TouchableOpacity key={`${index}  getDaysArrayByMonth`} onPress={() => onPress(day,countMess)} style={[{left: 50,zindex:20 ,position: 'absolute',top: timeOffset(element)},styles.entry]}>
                 <View style={[{zIndex: 200,backgroundColor: 'rgb(93,217,114)',minHeight: heightMess(element)},styles.themeMess]}>
                     <Text style={{color: 'white'}}>{element.message}</Text>
                 </View>

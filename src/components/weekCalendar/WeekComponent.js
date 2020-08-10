@@ -20,6 +20,7 @@ const screenHeight = Dimensions.get('window').height
 
 
 const WeekComponent = (props) => {
+    const {navigation} = props.props
     const dispatch = useDispatch()
     const Date = useSelector(state => state.calendar.choseDay)
     const allDayMonth = useSelector(state => state.calendar.allDayMonth)
@@ -83,8 +84,8 @@ const WeekComponent = (props) => {
 
 
     const weeks_in_month = () => {
-        let year = moment().format('yyyy');  // change year
-        let month = moment().format('M'); // change month here
+        let year = moment().format('yyyy');
+        let month = moment().format('M'); 
         let startDate = moment([year, month - 1])
         let endDate = moment(startDate).endOf('month');
 
@@ -206,7 +207,7 @@ const WeekComponent = (props) => {
             </View>
             <View style={styles.container}>
             <ScrollView style={styles.scrollView}>
-                    <TimeLineWeek />
+                    <TimeLineWeek navigation={navigation} />
             </ScrollView>
             </View>
         </View>

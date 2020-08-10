@@ -18,9 +18,9 @@ const Header = (props) => {
     const choseAllDate = useSelector(state => state.calendar.choseAllDate)
     const data = useSelector(state => state.calendar.entryMass)
     const onPress = () => {
-        navigation.navigate('Details',{
+       navigation.navigate('Details',{
             day: choseDay
-        })
+        }) 
     }
 
     return <View style={styles.container}>

@@ -20,7 +20,12 @@ export function addEntry(element) {
     payload: element
   }
 }
-
+export function deleteEntry(element) {
+  return {
+    type: 'DELETE_ENTRY',
+    payload: element
+  }
+}
 export function choseWeekDay(index) {
   return {
     type: 'CHOSE_WEEK_INDEX',

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {TextInput,TouchableOpacity, Text, View} from "react-native";
+import {TextInput,TouchableOpacity, Text, View,StyleSheet} from "react-native";
 import { Picker } from '@react-native-community/picker'
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -20,29 +20,22 @@ const DetailScreen = (props) => {
 
     useEffect(() => {
         if (endSelectedHour <= startSelectedHour ) {
-            // console.log('check',check)
             setCheck(true)
-            // console.log('check',check)
         } else {
             setCheck(false)
-            // alert('Начальное время не может быть больше конечного')
         }
     },[])
 
     useEffect(() => {
-        console.log('endSelectedHour',endSelectedHour)
-        console.log('startSelectedHour',startSelectedHour)
         if (endSelectedHour >= startSelectedHour ) {
             console.log('in')
-            // console.log('check',check)
             setCheck(true)
-            // console.log('check',check)
         } else {
             setCheck(false)
         }
     },[startSelectedHour,endSelectedHour])
 
-    const count = (prevNumb,numb, element) => {
+    const count = (numb) => {
         return {
             [`${choseAllDate.format('L')}`]: {
                 day: `${choseAllDate.format('L')}`,
@@ -58,15 +51,12 @@ const DetailScreen = (props) => {
         }
     }
     const setStartHour = (itemValue) => {
+        console.log('',itemValue)
         setStartSelectedHour(itemValue)
     }
 
     const setEndHour = (itemValue) => {
-        if (startSelectedHour <= itemValue) {
-            setEndSelectedHour(itemValue)
-        } else {
-            setEndSelectedHour(startSelectedHour)
-        }
+        setEndSelectedHour(itemValue)
     }
 
     const setStartMinutes = (itemValue) => {
@@ -74,71 +64,98 @@ const DetailScreen = (props) => {
     }
 
     const setEndMinutes = (itemValue) => {
-        if (startSelectedHour == endSelectedHour) {
-            if (startSelectedMinutes < endSelectedMinutes) {
-                setEndSelectedMinutes(itemValue)
-            } else {
-                setEndSelectedMinutes(startSelectedMinutes + 1)
-            }
-        } else {
-            setEndSelectedMinutes(itemValue)
-        }
+        setEndSelectedMinutes(itemValue)
     }
 
-    const checkTime = (element) => {
+    const checkWithFirstEntry = (first,second) => {
         const startDay = 10 * 60
-        const readyStartElement = startSelectedHour * 60
-        const readyEndElement = (endSelectedHour * 60) + endSelectedMinutes
-        const startTimeElement = element.first.startHour * 60
-        const endTimeElement = (element.first.endHour * 60) + element.first.endMinutes
+        const endDay = 20 * 60
+        const newStartElement = Number(startSelectedHour)  * 60
+        const newEndElement = ((Number(endSelectedHour) * 60) + Number(endSelectedMinutes))
+        const oldFirstStart = Number(first.startHour) * 60
+        const oldFirstEnd = (Number(first.endHour) * 60) + Number(first.endMinutes)
 
-        if (endTimeElement) {
+    
 
+        if (second) {
+            const oldSecondStart = Number(second.startHour) * 60
+            const oldSecondEnd = (Number(second.endHour) * 60) + Number(second.endMinutes)
+            if (oldSecondEnd > oldFirstEnd) {
+                if (startDay <= newStartElement && newEndElement <= oldFirstStart ||
+                    oldFirstEnd <= newStartElement && newEndElement <= oldSecondStart ||
+                    oldSecondEnd <= newStartElement && newEndElement <= endDay) {
+                    alert('Запись добавлена')
+                    return true
+                } else {
+                    console.log(`
+                    startDay <= newStartElement && newEndElement <= oldFirstStart ||
+                    ${startDay} <= ${newStartElement} && ${newEndElement} <= ${oldFirstStart} ||
+                    oldFirstEnd <= newStartElement && newEndElement <= oldSecondStart ||
+                    ${oldFirstEnd} <= ${newStartElement} && ${newEndElement} <= ${oldSecondStart} ||
+                    oldSecondEnd <= newStartElement && newEndElement <= endDay
+                    ${oldSecondEnd} <= ${newStartElement} && ${newEndElement} <= ${endDay}`)
+                    alert(`Запись не может быть тут установленна first second `)
+                    return false
+                }
+            } else {
+                if (startDay <= newStartElement && oldSecondEnd <= oldSecondStart ||
+                    oldSecondEnd <= newStartElement && newEndElement <= oldFirstStart
+                    || oldFirstEnd <= newStartElement && newEndElement <= endDay) {
+                    alert('Запись добавлена')
+                    return true
+                } else {
+                    alert('Запись не может быть тут установленна second first')
+                    return false
+                }
+            }
+        } else {
+            if ( newStartElement => oldFirstEnd || newEndElement <= oldFirstStart) {
+                alert('Запись добавлена')
+                return true
+            } else {
+                alert('Запись не может быть тут установленна second')
+                return false
+            }
         }
     }
     const saveEntry = (data) => {
         let element = Object.values(data)
         let findElement = Object.values(data).find(data => data.day == choseAllDate.format('L'))
 
-        // console.log('check',check)
-
         if (check) {
-            if (startSelectedHour === endSelectedHour && startSelectedMinutes === endSelectedMinutes) {
+            if (startSelectedHour == endSelectedHour && startSelectedMinutes == endSelectedMinutes) {
                 alert('Запись должна различаться хотя бы на одну минуту')
             } else {
                 for (let i = 0; i < element.length;i++) {
                     if (findElement) {
-
-
-
                         if (element[i].day === choseAllDate.format('L')) {
-                            if (element[i].hasOwnProperty('second')) {
-                                // console.log('element[i]',element[i])
-
-                                // let third = count('second','third',element[i])
-                                // dispatch(addEntry(third))
-                            } else if (element[i].hasOwnProperty('first')) {
-
-                                if (checkTime(element[i])) {
-
+                            if (element[i].hasOwnProperty('third')) {
+                                alert('максимальное количество записей на день')
+                                navigate('Home')
+                            } else if (element[i].hasOwnProperty('second')) {
+                                if (checkWithFirstEntry(element[i].first,element[i].second)) {
+                                    let third = count('third',element[i])
+                                    dispatch(addEntry(third))
+                                    navigate('Home')
                                 }
-
-                                // let second = count('first','second',element[i])
-                                // dispatch(addEntry(second))
+                            } else if (element[i].hasOwnProperty('first')) {
+                                if (checkWithFirstEntry(element[i].first)) {
+                                    let second = count('second',element[i])
+                                    dispatch(addEntry(second))
+                                    navigate('Home')
+                                }
                             }
                         }
-
-
-
                     } else {
-                        // let first = count('first','first',element[i])
-                        // dispatch(addEntry(first))
+                        let first = count('first','first',element[i])
+                        dispatch(addEntry(first))
+                        navigate('Home')
                     }
                 }
-                // navigate('Home')
-            }
 
+            }
         } else {
+            console.log(`${startSelectedHour} == ${endSelectedHour} && ${startSelectedMinutes} == ${endSelectedMinutes}`)
             alert('Начальное время не может быть больше конечного')
         }
 
@@ -159,70 +176,54 @@ const DetailScreen = (props) => {
         <View style={{  alignItems: 'center', justifyContent: 'center' }}>
             <Text>Сообщение</Text>
             <TextInput
-                style={{marginBottom:20, height: 40, borderColor: 'gray', borderWidth: 1 }}
+                style={styles.input}
                 onChangeText={text => onChangeText(text)}
                 value={valueMess}
             />
             <Text>C :</Text>
-            <View style={{flexDirection: 'row',marginBottom: 200}}>
-                <Picker
-                    selectedValue={startSelectedHour}
-                    style={{ height: 20, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setStartHour(itemValue) }
-                >
-                    <Picker.Item key={'10hour'} label="10" value='10' />
-                    <Picker.Item key={'11hour'} label="11" value="11" />
-                    <Picker.Item key={'12hour'} label="12" value="12" />
-                    <Picker.Item key={'13hour'} label="13" value="13" />
-                    <Picker.Item key={'14hour'} label="14" value="14" />
-                    <Picker.Item key={'15hour'} label="15" value="15" />
-                    <Picker.Item key={'16hour'} label="16" value="16" />
-                    <Picker.Item key={'17hour'} label="17" value="17" />
-                    <Picker.Item key={'18hour'} label="18" value="18" />
-                    <Picker.Item key={'19hour'} label="19" value="19" />
-                    <Picker.Item key={'20hour'} label="20" value="20" />
-                </Picker>
-                <Picker
-                    selectedValue={startSelectedMinutes}
-                    style={{ height: 20, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setStartMinutes(itemValue)}
-                >
-                    {minutes()}
-                </Picker>
+            <View style={{flexDirection: 'row'}}>
+            <TextInput
+                keyboardType={'numeric'}
+                style={[styles.input,{marginRight: 20}]}
+                value={startSelectedHour}
+                onChangeText={(text) => setStartHour(text)}
+
+            />
+            <TextInput
+                keyboardType={'numeric'}
+                style={styles.input}
+                value={startSelectedMinutes}
+                onChangeText={(text) => setStartMinutes(text)}
+
+                
+            />
             </View>
             <Text>До :</Text>
-            <View style={{flexDirection: 'row'}}>
-                <Picker
-                    selectedValue={endSelectedHour}
-                    style={{ height: 20, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setEndHour(itemValue)}
-                >
-                    <Picker.Item label="10" value='10' />
-                    <Picker.Item label="11" value="11" />
-                    <Picker.Item label="12" value="12" />
-                    <Picker.Item label="13" value="13" />
-                    <Picker.Item label="14" value="14" />
-                    <Picker.Item label="15" value="15" />
-                    <Picker.Item label="16" value="16" />
-                    <Picker.Item label="17" value="17" />
-                    <Picker.Item label="18" value="18" />
-                    <Picker.Item label="19" value="19" />
-                    <Picker.Item label="20" value="20" />
-                </Picker>
-                <Picker
-                    selectedValue={endSelectedMinutes}
-                    style={{ height: 50, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setEndMinutes(itemValue)}
-                >
-                    {minutes()}
-                </Picker>
-            </View>
-            <TouchableOpacity style={{marginTop: 200}} onPress={() => {saveEntry(data)}}>
-                <Text>123123123123</Text>
-            </TouchableOpacity>
 
+            <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
+                <TextInput
+                    keyboardType={'numeric'}
+                    style={[styles.input,{marginRight: 20}]}
+                    value={endSelectedHour}
+                    onChangeText={(text) => setEndHour(text)}
+                />
+                <TextInput
+                    keyboardType={'numeric'}
+                    style={styles.input}
+                    value={endSelectedMinutes}
+                    onChangeText={(text) => setEndMinutes(text)}
+
+                />
+            </View>
+            <TouchableOpacity  onPress={() => {saveEntry(data)}}>
+                <Text>Запись</Text>
+            </TouchableOpacity>
         </View>
     );
 }
 export default DetailScreen
+
+const styles = StyleSheet.create({
+    input: {marginBottom:20, height: 40, borderColor: 'gray', borderWidth: 1,minWidth: 150,paddingHorizontal: 20,textAlign: 'center'},
+});
 
