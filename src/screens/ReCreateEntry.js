@@ -103,6 +103,9 @@ const ReCreateEntry = (props) => {
                     alert('Запись Отредактирована')
                 return true
             } else {
+                console.log(`${startDay} <= ${newStartElement} && ${oldSecondEnd} <= ${oldSecondStart} ||
+                ${oldSecondEnd} <= ${newStartElement} && ${newEndElement} <= ${oldFirstStart}
+                || ${oldFirstEnd} <= ${newStartElement} && ${newEndElement} <= ${endDay}`)
                 alert('Запись не может быть тут установленна second first')
                 return false
             }
@@ -113,12 +116,10 @@ const ReCreateEntry = (props) => {
         const startDay = 10 * 60
         const endDay = 20 * 60
         const findElement = Object.values(data).find(data => data.day == day)
-        const newStartElement = Number(startSelectedHour)  * 60
+        const newStartElement = ((Number(startSelectedHour)  * 60) + Number(startSelectedMinutes))
         const newEndElement = ((Number(endSelectedHour) * 60) + Number(endSelectedMinutes))
 
         if (findElement.third && findElement.second && findElement.first) {
-
-
             if (mess === 'first') {
                 dispatch(deleteEntry(findElement.first))
                 const oldFirstStart = ((Number(findElement.third.startHour) * 60) + Number(findElement.third.startMinutes))
@@ -130,28 +131,44 @@ const ReCreateEntry = (props) => {
                 dispatch(deleteEntry(findElement.second))
                 const oldFirstStart = ((Number(findElement.third.startHour) * 60) + Number(findElement.third.startMinutes))
                 const oldFirstEnd = (Number(findElement.third.endHour) * 60) + Number(findElement.third.endMinutes)
-                const oldSecondStart = ((Number(findElement.first.startHour) * 60) + Number(findElement.third.startMinutes))
-                const oldSecondEnd = (Number(findElement.first.endHour) * 60) + Number(findElement.second.endMinutes)
+                const oldSecondStart = ((Number(findElement.first.startHour) * 60) + Number(findElement.first.startMinutes))
+                const oldSecondEnd = (Number(findElement.first.endHour) * 60) + Number(findElement.first.endMinutes)
                 return help(oldFirstStart,oldFirstEnd,oldSecondStart,oldSecondEnd,startDay,endDay,newStartElement,newEndElement)
             } else {
                 dispatch(deleteEntry(findElement.third))
-                const oldFirstStart = ((Number(findElement.first.startHour) * 60) + Number(findElement.third.startMinutes))
-                const oldFirstEnd = (Number(findElement.first.endHour) * 60) + Number(findElement.third.endMinutes)
+                const oldFirstStart = ((Number(findElement.first.startHour) * 60) + Number(findElement.first.startMinutes))
+                const oldFirstEnd = (Number(findElement.first.endHour) * 60) + Number(findElement.first.endMinutes)
                 const oldSecondStart = ((Number(findElement.second.startHour) * 60) + Number(findElement.second.startMinutes))
                 const oldSecondEnd = (Number(findElement.second.endHour) * 60) + Number(findElement.second.endMinutes)
                 return help(oldFirstStart,oldFirstEnd,oldSecondStart,oldSecondEnd,startDay,endDay,newStartElement,newEndElement)
             }
-
         } else if (findElement.third == undefined && findElement.second && findElement.first || findElement.third && findElement.second == undefined && findElement.first || findElement.third && findElement.second && findElement.first == undefined) {
-            const oldFirstStart = ((Number(findElement.first.startHour) * 60) + Number(findElement.third.startMinutes))
-            const oldFirstEnd = (Number(findElement.first.endHour) * 60) + Number(findElement.first.endMinutes)
-            const oldSecondStart = ((Number(findElement.second.startHour) * 60) + Number(findElement.second.startMinutes))
-            const oldSecondEnd = (Number(findElement.second.endHour) * 60) + Number(findElement.second.endMinutes)
-
-            return help(oldFirstStart,oldFirstEnd,oldSecondStart,oldSecondEnd,startDay,endDay,newStartElement,newEndElement)
+            if (mess === 'first') {
+                dispatch(deleteEntry(findElement.first))
+                const oldFirstStart = ((Number(findElement.third.startHour) * 60) + Number(findElement.third.startMinutes))
+                const oldFirstEnd = (Number(findElement.third.endHour) * 60) + Number(findElement.third.endMinutes)
+                const oldSecondStart = ((Number(findElement.second.startHour) * 60) + Number(findElement.second.startMinutes))
+                const oldSecondEnd = (Number(findElement.second.endHour) * 60) + Number(findElement.second.endMinutes)
+                return help(oldFirstStart,oldFirstEnd,oldSecondStart,oldSecondEnd,startDay,endDay,newStartElement,newEndElement)
+            } else if (mess === 'second') {
+                dispatch(deleteEntry(findElement.second))
+                const oldFirstStart = ((Number(findElement.third.startHour) * 60) + Number(findElement.third.startMinutes))
+                const oldFirstEnd = (Number(findElement.third.endHour) * 60) + Number(findElement.third.endMinutes)
+                const oldSecondStart = ((Number(findElement.first.startHour) * 60) + Number(findElement.first.startMinutes))
+                const oldSecondEnd = (Number(findElement.first.endHour) * 60) + Number(findElement.first.endMinutes)
+                return help(oldFirstStart,oldFirstEnd,oldSecondStart,oldSecondEnd,startDay,endDay,newStartElement,newEndElement)
+            } else {
+                dispatch(deleteEntry(findElement.third))
+                const oldFirstStart = ((Number(findElement.first.startHour) * 60) + Number(findElement.first.startMinutes))
+                const oldFirstEnd = (Number(findElement.first.endHour) * 60) + Number(findElement.first.endMinutes)
+                const oldSecondStart = ((Number(findElement.second.startHour) * 60) + Number(findElement.second.startMinutes))
+                const oldSecondEnd = (Number(findElement.second.endHour) * 60) + Number(findElement.second.endMinutes)
+                return help(oldFirstStart,oldFirstEnd,oldSecondStart,oldSecondEnd,startDay,endDay,newStartElement,newEndElement)
+            }
         } else  {
-            const oldFirstStart = Number(findElement.first.startHour) * 60
+            const oldFirstStart = ((Number(findElement.first.startHour) * 60) + Number(findElement.first.startMinutes))
             const oldFirstEnd = (Number(findElement.first.endHour) * 60) + Number(findElement.first.endMinutes)
+            dispatch(deleteEntry(findElement.first))
             if ( newStartElement => oldFirstEnd || newEndElement <= oldFirstStart) {
                 alert('Запись Отредактирована')
                 return true

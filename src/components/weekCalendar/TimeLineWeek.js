@@ -84,30 +84,30 @@ const TimeLineWeek = (props) => {
                 if (choseWeekArr[choseWeekIndex][i].length != 0) {
                     const date = choseWeekArr[choseWeekIndex][i][0]
                     if (date.format('L') === Object.keys(data)[k]) {
-                        mass.push(preRender(data[Object.keys(data)[k]],i))
+                        mass.push(preRender(data[Object.keys(data)[k]],i,k))
                     }
                 }
             }
         }
         return mass
     }
-    const preRender = (element,index) => {
+    const preRender = (element,index,k) => {
         let mass = []
 
         if (element.hasOwnProperty('third')) {
-            mass.push(renderMess(element.third,element.day,index,element.third.entry))
+            mass.push(renderMess(element.third,element.day,index,element.third.entry,k))
         }
         if (element.hasOwnProperty('second')) {
-            mass.push(renderMess(element.second,element.day,index,element.second.entry))
+            mass.push(renderMess(element.second,element.day,index,element.second.entry,k))
         }
         if (element.hasOwnProperty('first')) {
-            mass.push(renderMess(element.first, element.day,index,element.first.entry))
+            mass.push(renderMess(element.first, element.day,index,element.first.entry,k))
         }
         console.log('index',index)
         console.log('mass',mass)
         return mass
     }
-    const renderMess = (element,day,index,countMess) => {
+    const renderMess = (element,day,index,countMess,k) => {
             console.log(index)
             const timeOffset = (element) => {
                 let procentPath = (element.startMinutes / 60) * 150
@@ -149,7 +149,7 @@ const TimeLineWeek = (props) => {
 
             return (
             <TouchableOpacity
-                key={`${index}  renderMess`}
+                key={`${Math.floor(Math.random() * day)}`}
                 onPress={() => onPress(day,countMess)}
                 style={{
                     position: 'absolute',
