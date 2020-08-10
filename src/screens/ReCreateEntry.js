@@ -1,9 +1,12 @@
 import * as React from 'react';
-import {TextInput,TouchableOpacity, Text, View,StyleSheet} from "react-native";
+import {TextInput, ScrollView,TouchableOpacity, Text, View, StyleSheet ,Dimensions} from "react-native";
 import { Picker } from '@react-native-community/picker'
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addEntry,deleteEntry} from "../actions/actions";
+import { blue } from '../core/const';
+
+let height = Dimensions.get('window').height
 
 
 const ReCreateEntry = (props) => {
@@ -23,8 +26,6 @@ const ReCreateEntry = (props) => {
 
     useEffect(() => {
         let findElement = Object.values(data).find(data => data.day == day)
-        console.log('findElementEff',findElement)
-        console.log('mess',mess)
         for (let i = 1; i < Object.values(findElement).length ;i++) {
             Object.values(findElement)[i].entry
             if (Object.values(findElement)[i].entry === mess) {
@@ -170,13 +171,6 @@ const ReCreateEntry = (props) => {
                     return true
                 } else {
                     alert('Запись не может быть тут установленна 1234')
-                    console.log(`
-                    startDay <= newStartElement && newEndElement <= oldFirstStart ||
-                    ${startDay} <= ${newStartElement} && ${newEndElement} <= ${oldFirstStart} ||
-                    oldFirstEnd <= newStartElement && newEndElement <= oldSecondStart ||
-                    ${oldFirstEnd} <= ${newStartElement} && ${newEndElement} <= ${oldSecondStart} ||
-                    oldSecondEnd <= newStartElement && newEndElement <= endDay
-                    ${oldSecondEnd} <= ${newStartElement} && ${newEndElement} <= ${endDay}`)
                     return false
                 }
             }
@@ -211,57 +205,154 @@ const ReCreateEntry = (props) => {
     }
 
     return (
-        <View style={{  alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Сообщение</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={text => onChangeText(text)}
-                value={valueMess}
-            />
-            <Text>C :</Text>
-            <View style={{flexDirection: 'row'}}>
-            <TextInput
-                keyboardType={'numeric'}
-                style={[styles.input,{marginRight: 20}]}
-                value={startSelectedHour}
-                onChangeText={(text) => setStartHour(text)}
-
-            />
-            <TextInput
-                keyboardType={'numeric'}
-                style={styles.input}
-                value={startSelectedMinutes}
-                onChangeText={(text) => setStartMinutes(text)}
-
-                
-            />
-            </View>
-            <Text>До :</Text>
-
-            <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
+        <View style={{backgroundColor: 'white',alignItems: 'center',position: 'relative'}}>
+        <ScrollView >
+            <View style={{ alignItems: 'center', justifyContent: 'center' ,height: height + 300}}>
+            <Text>С какого времни начало записи :</Text> 
+            <View style={styles.wrapperInput}>
                 <TextInput
+                    placeholder={`${startSelectedHour}`}
+                    placeholderTextColor="blue"
                     keyboardType={'numeric'}
-                    style={[styles.input,{marginRight: 20}]}
+                    style={[styles.input]}
+                    value={startSelectedHour}
+                    onChangeText={(text) => setStartHour(text)}
+                />
+                <Text style={styles.label}>Часы:</Text> 
+                </View>
+                <View style={styles.wrapperInput}>
+                <TextInput
+                    placeholder={`${startSelectedMinutes}`}
+                    placeholderTextColor="blue"
+                    keyboardType={'numeric'}
+                    style={styles.input}
+                    value={startSelectedMinutes}
+                    onChangeText={(text) => setStartMinutes(text)}
+                />
+                <Text style={styles.label}>Минуты :</Text>
+                </View>
+
+                <Text>До какого времени конец запись :</Text> 
+                <View style={styles.wrapperInput}>
+                <TextInput
+                    placeholder={`${endSelectedHour}`}
+                    placeholderTextColor="blue"
+                    keyboardType={'numeric'}
+                    style={[styles.input]}
                     value={endSelectedHour}
                     onChangeText={(text) => setEndHour(text)}
                 />
+                <Text style={styles.label}>Часы :</Text>
+                </View>
+                <View style={styles.wrapperInput}>
                 <TextInput
+                    placeholder={`${endSelectedMinutes}`}
+                    placeholderTextColor="blue"
                     keyboardType={'numeric'}
                     style={styles.input}
                     value={endSelectedMinutes}
                     onChangeText={(text) => setEndMinutes(text)}
-
                 />
-            </View>
-            <TouchableOpacity  onPress={() => {saveEntry(data)}}>
-                <Text>Запись</Text>
+                <Text style={styles.label}>Минуты :</Text>
+                </View>
+    
+                <Text>Сообщение</Text>
+                <TextInput
+                    placeholder={valueMess}
+                    placeholderTextColor="blue"
+                    style={styles.input}
+                    onChangeText={text => onChangeText(text)}
+                    value={valueMess}
+                />
+                           
+            <TouchableOpacity style={styles.button} onPress={() => { saveEntry(data) }}>
+                <Text style={styles.buttonText}>Запись</Text>
             </TouchableOpacity>
+            </View>
+
+        </ScrollView>
         </View>
+
+
+        // <View style={{  alignItems: 'center', justifyContent: 'center' }}>
+        //     <Text>Сообщение</Text>
+        //     <TextInput
+        //         style={styles.input}
+        //         onChangeText={text => onChangeText(text)}
+        //         value={valueMess}
+        //     />
+        //     <Text>C :</Text>
+        //     <View style={{flexDirection: 'row'}}>
+        //     <TextInput
+        //         keyboardType={'numeric'}
+        //         style={[styles.input,{marginRight: 20}]}
+        //         value={startSelectedHour}
+        //         onChangeText={(text) => setStartHour(text)}
+
+        //     />
+        //     <TextInput
+        //         keyboardType={'numeric'}
+        //         style={styles.input}
+        //         value={startSelectedMinutes}
+        //         onChangeText={(text) => setStartMinutes(text)}
+
+                
+        //     />
+        //     </View>
+        //     <Text>До :</Text>
+
+        //     <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
+        //         <TextInput
+        //             keyboardType={'numeric'}
+        //             style={[styles.input,{marginRight: 20}]}
+        //             value={endSelectedHour}
+        //             onChangeText={(text) => setEndHour(text)}
+        //         />
+        //         <TextInput
+        //             keyboardType={'numeric'}
+        //             style={styles.input}
+        //             value={endSelectedMinutes}
+        //             onChangeText={(text) => setEndMinutes(text)}
+
+        //         />
+        //     </View>
+        //     <TouchableOpacity  onPress={() => {saveEntry(data)}}>
+        //         <Text>Запись</Text>
+        //     </TouchableOpacity>
+        // </View>
     );
 }
 export default ReCreateEntry
 
 const styles = StyleSheet.create({
-    input: {marginBottom:20, height: 40, borderColor: 'gray', borderWidth: 1,minWidth: 150,paddingHorizontal: 20,textAlign: 'center'},
+    wrapperInput: {
+        position: 'relative'
+    },
+    label: {
+        position: 'absolute',top: 5,left: 10
+    },
+    input: {
+        borderRadius: 5,
+        marginBottom: 20,
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        minWidth: '90%',
+        paddingTop: 20,
+        height: 80,
+        paddingHorizontal: 10,
+        textAlign: 'left',
+    },
+    button: {
+        marginBottom: 300,
+        borderRadius: 25,
+        paddingVertical: 20,
+        width: '100%',
+        backgroundColor: blue,
+    },
+    buttonText: {
+        textAlign: 'center',
+        color: 'white'
+    }
 });
 

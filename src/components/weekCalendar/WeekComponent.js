@@ -22,10 +22,11 @@ const screenHeight = Dimensions.get('window').height
 const WeekComponent = (props) => {
     const {navigation} = props.props
     const dispatch = useDispatch()
+    const day = useSelector(state => state.calendar.choseDay)
+
     const Date = useSelector(state => state.calendar.choseDay)
     const allDayMonth = useSelector(state => state.calendar.allDayMonth)
-
-    const [activeDay,setActiveDay] = useState('')
+    
     const [activeWeek,setActiveWeek] = useState('')
     const [daysOfWeek,setDaysOfWeek] = useState(0)
 
@@ -169,12 +170,12 @@ const WeekComponent = (props) => {
 
     const renderDaysOfWeek = () => {
         let weeks = weeks_in_month()
-        return weeks[daysOfWeek].map((item,index) => <TouchableOpacity key={`${index}  renderDaysOfWeek`} onPress={() => setActiveDay(item.toString().substring(8, 10))} style={{borderColor: 'rgb(206,206,206)',borderRightWidth: 1,width:widthItem() ,alignItems: 'center',justifyContent: 'center',backgroundColor: activeDay == item.toString().substring(8, 10)? 'rgb(2, 122, 255)' : 'white'}}>
+        return weeks[daysOfWeek].map((item,index) => <TouchableOpacity key={`${index}  renderDaysOfWeek`} onPress={() => dispatch(choseDay(item.toString().substring(8, 10)))} style={{borderColor: 'rgb(206,206,206)',borderRightWidth: 1,width:widthItem() ,alignItems: 'center',justifyContent: 'center',backgroundColor: day == item.toString().substring(8, 10)? 'rgb(2, 122, 255)' : 'white'}}>
             <View style={{flexDirection: 'row'}}>
-                <Text style={{color: activeDay == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(0, 3)}</Text>
-                <Text style={{color: activeDay == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(8, 10)}</Text>
+                <Text style={{color: day == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(0, 3)}</Text>
+                <Text style={{color: day == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(8, 10)}</Text>
             </View>
-            <Text style={{color: activeDay == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(4, 7)}</Text>
+            <Text style={{color: day == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(4, 7)}</Text>
         </TouchableOpacity>)
     }
 

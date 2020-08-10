@@ -21,15 +21,21 @@ const DayComponent = (props) => {
     const {navigation} = props.props
     const dispatch = useDispatch()
     const Date = useSelector(state => state.calendar.choseAllDate)
-    const [activeDay,setActiveDay] = useState('')
+    const day = useSelector(state => state.calendar.choseDay)
+    const [activeDay,setActiveDay] = useState(moment().format('D'))
 
+    console.log('day',day)
     if (Date === '') {
         dispatch(choseAllDate(moment()))
     }
 
     useEffect(()=> {
-        setActiveDay(moment().format('D'))
-    },[])
+        console.log('activeDay',activeDay)
+        console.log('activeDay',day)
+        // setActiveDay(day)
+        // console.log('activeDay',activeDay)
+        // console.log('activeDay',day)
+    })
 
     const clickDay = (item) => {
         dispatch(choseAllDate(item))
@@ -68,13 +74,13 @@ const DayComponent = (props) => {
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index.toString()}
                     data={ getDaysArrayByMonth(true)}
-                    renderItem={({item,index}) => <View key={`${index}  getDaysArrayByMonth`} style={[styles.item,activeDay === item.format('D') ? styles.itemActive : null]}>
+                    renderItem={({item,index}) => <View key={`${index}  getDaysArrayByMonth`} style={[styles.item,day === item.format('D') ? styles.itemActive : null]}>
                         <TouchableOpacity onPress={() => clickDay(item)}>
                             <View style={{flexDirection: 'row',justifyContent: 'space-evenly'}}>
-                                <Text style={{color: activeDay === item.format('D')? 'white' : 'black' }}>{item.format('D')}</Text>
-                                <Text style={{color: activeDay === item.format('D')? 'white' : 'black' }}>{item.format('dd')}</Text>
+                                <Text style={{color: day === item.format('D')? 'white' : 'black' }}>{item.format('D')}</Text>
+                                <Text style={{color: day === item.format('D')? 'white' : 'black' }}>{item.format('dd')}</Text>
                             </View>
-                            <Text style={{textAlign: 'center',color: activeDay === item.format('D')? 'white' : 'black' }}>{item.format('MMM')}</Text>
+                            <Text style={{textAlign: 'center',color: day === item.format('D')? 'white' : 'black' }}>{item.format('MMM')}</Text>
                         </TouchableOpacity>
                     </View>}
                 />
