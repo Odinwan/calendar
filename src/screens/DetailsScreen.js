@@ -99,8 +99,9 @@ const DetailScreen = (props) => {
                 }
             }
         } else {
-            if (startDay <= newStartElement && newEndElement <= oldFirstStart || oldFirstEnd <= newStartElement && newEndElement  <= endDay) {
-                alert('Запись добавлена')
+            if (newStartElement => oldFirstEnd || newEndElement <= oldFirstStart) {
+                // alert('Запись добавлена')
+                alert('123')
                 return true
             } else {
                 alert('Запись не может быть тут установленна')
@@ -129,6 +130,7 @@ const DetailScreen = (props) => {
                                     navigate('Home')
                                 }
                             } else if (element[i].hasOwnProperty('first')) {
+                                alert('123123123')
                                 if (checkWithFirstEntry(element[i].first)) {
                                     let second = count('second', element[i])
                                     dispatch(addEntry(second))
@@ -137,6 +139,7 @@ const DetailScreen = (props) => {
                             }
                         }
                     } else {
+                    
                         let first = count('first', element[i])
                         dispatch(addEntry(first))
                         navigate('Home')

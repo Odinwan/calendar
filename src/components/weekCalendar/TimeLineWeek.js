@@ -33,30 +33,11 @@ const TimeLineWeek = (props) => {
         </>
     }
     const renderMainTable = () => {
-
-        const workHour = [
-            '10:00',
-            '10:30',
-            '11:00',
-            '11:30',
-            '12:00',
-            '12:30',
-            '13:00',
-            '13:30',
-            '14:00',
-            '14:30',
-            '15:00',
-            '15:30',
-            '16:00',
-            '16:30',
-            '17:00',
-            '17:30',
-            '18:00',
-            '18:30',
-            '19:00',
-            '19:30',
-            '20:00',
-        ]
+        const workHour = []
+        for (let i = 0; i < 10;i++) {
+            workHour.push(`${10+i}:00`)
+            workHour.push(`${10+i}:30`)
+        }
 
         const renderTable = () => {
             let temp = []
@@ -103,12 +84,11 @@ const TimeLineWeek = (props) => {
         if (element.hasOwnProperty('first')) {
             mass.push(renderMess(element.first, element.day,index,element.first.entry,k))
         }
-        console.log('index',index)
-        console.log('mass',mass)
+
         return mass
     }
     const renderMess = (element,day,index,countMess,k) => {
-            console.log(index)
+        
             const timeOffset = (element) => {
                 let procentPath = (element.startMinutes / 60) * 150
                 let procent = (element.startHour - 10) * 150 + procentPath

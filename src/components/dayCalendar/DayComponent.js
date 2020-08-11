@@ -30,6 +30,7 @@ const DayComponent = (props) => {
     }
 
     const clickDay = (item) => {
+        
         dispatch(choseAllDate(item))
         dispatch(choseDay(item.format('D')))
         setActiveDay(item.format('D'))

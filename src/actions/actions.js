@@ -15,6 +15,7 @@ export function choseAllDate(date) {
 }
 
 export function addEntry(element) {
+  console.log('ADD_ENTRY',element)
   return {
     type: 'ADD_ENTRY',
     payload: element

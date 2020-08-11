@@ -31,7 +31,7 @@ const WeekComponent = (props) => {
     const [daysOfWeek,setDaysOfWeek] = useState(0)
 
     useEffect(() => {
-        weeks_in_month()
+        weeksInMonth()
         const allDays = getDaysArrayByMonth()
         dispatch(addAllDayMonth(allDays))
 
@@ -79,9 +79,10 @@ const WeekComponent = (props) => {
         setDaysOfWeek(index)
         dispatch(choseWeekDay(index))
     }
+    
 
 
-    const weeks_in_month = () => {
+    const weeksInMonth = () => {
         let year = moment().format('yyyy');
         let month = moment().format('M'); 
         let startDate = moment([year, month - 1])
@@ -127,7 +128,7 @@ const WeekComponent = (props) => {
     }
 
     const weeksRender = () => {
-        let weeks = weeks_in_month()
+        let weeks = weeksInMonth()
         let mass = []
 
         for (let i = 0; i < weeks.length;i++) {
@@ -168,9 +169,15 @@ const WeekComponent = (props) => {
         return length
     }
 
+const test = (item) => {
+    let findElement = allDayMonth.find(element => element.format('D') === item.toString().substring(8, 10))
+    dispatch(choseAllDate(findElement))
+    dispatch(choseDay(findElement.format('D')))
+}
+
     const renderDaysOfWeek = () => {
-        let weeks = weeks_in_month()
-        return weeks[daysOfWeek].map((item,index) => <TouchableOpacity key={`${index}  renderDaysOfWeek`} onPress={() => dispatch(choseDay(item.toString().substring(8, 10)))} style={{borderColor: 'rgb(206,206,206)',borderRightWidth: 1,width:widthItem() ,alignItems: 'center',justifyContent: 'center',backgroundColor: day == item.toString().substring(8, 10)? 'rgb(2, 122, 255)' : 'white'}}>
+        let weeks = weeksInMonth()
+        return weeks[daysOfWeek].map((item,index) => <TouchableOpacity key={`${index}  renderDaysOfWeek`} onPress={() => test(item,index)} style={{borderColor: 'rgb(206,206,206)',borderRightWidth: 1,width:widthItem() ,alignItems: 'center',justifyContent: 'center',backgroundColor: day == item.toString().substring(8, 10)? 'rgb(2, 122, 255)' : 'white'}}>
             <View style={{flexDirection: 'row'}}>
                 <Text style={{color: day == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(0, 3)}</Text>
                 <Text style={{color: day == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(8, 10)}</Text>
