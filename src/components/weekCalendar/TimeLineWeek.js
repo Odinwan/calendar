@@ -11,8 +11,6 @@ import {useSelector} from "react-redux";
 import {deviceWidth} from "../../core/const";
 
 const TimeLineWeek = (props) => {
-
-
     const choseWeekIndex = useSelector(state => state.calendar.choseWeekIndex)
     const choseAllDate = useSelector(state => state.calendar.choseAllDate)
     const choseWeekArr = useSelector(state => state.calendar.choseWeekArr)
@@ -47,7 +45,7 @@ const TimeLineWeek = (props) => {
 
         let mass = workHour.map((element,index) =>
                 <View key={`${index}  renderMainTable`}  style={styles.wreapperItem}>
-                    <View style={{width: 50,borderRightWidth: 1,borderColor:'rgb(206,206,206)'}}>
+                    <View style={{width: 50,borderRightWidth: 1,borderColor:'rgb(206,206,206)',backgroundColor:'rgb(249,249,249)'}}>
                         <Text style={{textAlign: 'center',marginTop: -10}}>{element == '10:00'?null:element}</Text>
                     </View>
                     <View style={{flexDirection: 'row',borderBottomColor: 'rgb(206,206,206)',borderBottomWidth:1}}>

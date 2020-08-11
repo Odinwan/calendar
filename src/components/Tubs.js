@@ -27,7 +27,6 @@ const Tubs = (props) => {
                     <View style={[styles.simpeTub,tub === "месяц" ? styles.activeTub : null]}><Text style={{textAlign: 'center',}}>Месяц</Text></View>
                 </TouchableOpacity>
         </View>
-        {/*<Text>{tub}</Text>*/}
     </View>
 }
 
@@ -53,9 +52,17 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 8,
         paddingHorizontal: 33,
-        paddingVertical: 10,
+        paddingVertical: 5,
     },
     activeTub: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+        elevation: 6,
         backgroundColor: 'white',
     },
     line: {

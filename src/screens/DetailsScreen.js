@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { TextInput, ScrollView,TouchableOpacity, Text, View, StyleSheet} from "react-native";
+import { TextInput,  ScrollView,  Keyboard,TouchableOpacity, Text, View, StyleSheet} from "react-native";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addEntry } from "../actions/actions";
 import { blue, height } from '../core/const';
-
 
 const DetailScreen = (props) => {
     const choseAllDate = useSelector(state => state.calendar.choseAllDate)
@@ -17,6 +16,13 @@ const DetailScreen = (props) => {
     const [endSelectedMinutes, setEndSelectedMinutes] = useState(30);
     const [valueMess, onChangeText] = React.useState('Useless Placeholder');
     const [check, setCheck] = React.useState(true);
+
+    const [absoluteFirstInput, setAbsoluteFirstInput] = useState(false);
+    const [absoluteSecondInput, setAbsoluteSecondInput] = useState(false);
+    const [absoluteThirdInput, setAbsoluteThirdInput] = useState(false);
+    const [absoluteFourInput, setAbsoluteFourInput] = useState(false);
+    const [absoluteFiveInput, setAbsoluteFiveInput] = useState(false);
+
     const dispatch = useDispatch()
  
     useEffect(() => {
@@ -100,8 +106,7 @@ const DetailScreen = (props) => {
             }
         } else {
             if (newStartElement => oldFirstEnd || newEndElement <= oldFirstStart) {
-                // alert('Запись добавлена')
-                alert('123')
+                alert('Запись добавлена')
                 return true
             } else {
                 alert('Запись не может быть тут установленна')
@@ -130,7 +135,6 @@ const DetailScreen = (props) => {
                                     navigate('Home')
                                 }
                             } else if (element[i].hasOwnProperty('first')) {
-                                alert('123123123')
                                 if (checkWithFirstEntry(element[i].first)) {
                                     let second = count('second', element[i])
                                     dispatch(addEntry(second))
@@ -139,7 +143,6 @@ const DetailScreen = (props) => {
                             }
                         }
                     } else {
-                    
                         let first = count('first', element[i])
                         dispatch(addEntry(first))
                         navigate('Home')
@@ -155,102 +158,107 @@ const DetailScreen = (props) => {
 
     return (
         <View style={styles.wrapperDetail}>
-        <ScrollView >
-            <View style={styles.mainWrapper}>
+            <ScrollView style={{height: height}}>
+            <View style={styles.mainWrapper}> 
             <Text>С какого времни начало записи :</Text> 
-            <View style={styles.wrapperInput}>
-                <TextInput
-                    placeholder={`${startSelectedHour}`}
-                    placeholderTextColor="blue"
-                    keyboardType={'numeric'}
-                    style={[styles.input]}
-                    value={startSelectedHour}
-                    onChangeText={(text) => setStartHour(text)}
-                />
-                <Text style={styles.label}>Часы:</Text> 
+                <View style={[styles.wrapperInput]}>
+                    <TextInput
+                        placeholder={`${startSelectedHour}`}
+                        placeholderTextColor="rgb(123,137,149)"
+                        keyboardType={'numeric'}
+                        style={[styles.input]}
+                        value={startSelectedHour}
+                        onChangeText={(text) => setStartHour(text)}
+                    />
+                    <Text style={styles.label}>Часы:</Text> 
                 </View>
-                <View style={styles.wrapperInput}>
-                <TextInput
-                    placeholder={`${startSelectedMinutes}`}
-                    placeholderTextColor="blue"
-                    keyboardType={'numeric'}
-                    style={styles.input}
-                    value={startSelectedMinutes}
-                    onChangeText={(text) => setStartMinutes(text)}
-                />
-                <Text style={styles.label}>Минуты :</Text>
+                <View style={[styles.wrapperInput]}>
+                    <TextInput
+                        placeholder={`${startSelectedMinutes}`}
+                        placeholderTextColor="rgb(123,137,149)"
+                        keyboardType={'numeric'}
+                        style={styles.input}
+                        value={startSelectedMinutes}
+                        onChangeText={(text) => setStartMinutes(text)}
+                    />
+                    <Text style={styles.label}>Минуты :</Text>
                 </View>
-
-                <Text>До какого времени конец запись :</Text> 
-                <View style={styles.wrapperInput}>
-                <TextInput
-                    placeholder={`${endSelectedHour}`}
-                    placeholderTextColor="blue"
-                    keyboardType={'numeric'}
-                    style={[styles.input]}
-                    value={endSelectedHour}
-                    onChangeText={(text) => setEndHour(text)}
-                />
-                <Text style={styles.label}>Часы :</Text>
+                    <Text>До какого времени конец запись :</Text> 
+                <View style={[styles.wrapperInput]}>
+                    <TextInput
+                        placeholder={`${endSelectedHour}`}
+                        placeholderTextColor="rgb(123,137,149)"
+                        keyboardType={'numeric'}
+                        style={[styles.input]}
+                        value={endSelectedHour}
+                        onChangeText={(text) => setEndHour(text)}
+                    />
+                    <Text style={styles.label}>Часы :</Text>
                 </View>
-                <View style={styles.wrapperInput}>
-                <TextInput
-                    placeholder={`${endSelectedMinutes}`}
-                    placeholderTextColor="blue"
-                    keyboardType={'numeric'}
-                    style={styles.input}
-                    value={endSelectedMinutes}
-                    onChangeText={(text) => setEndMinutes(text)}
-                />
-                <Text style={styles.label}>Минуты :</Text>
+                <View style={[styles.wrapperInput]}>
+                    <TextInput
+                        placeholder={`${endSelectedMinutes}`}
+                        placeholderTextColor="rgb(123,137,149)"
+                        keyboardType={'numeric'}
+                        style={styles.input}
+                        value={endSelectedMinutes}
+                        onChangeText={(text) => setEndMinutes(text)}
+                    />
+                    <Text style={styles.label}>Минуты :</Text>
                 </View>
-    
                 <Text>Сообщение</Text>
                 <TextInput
                     placeholder={valueMess}
-                    placeholderTextColor="blue"
+                    placeholderTextColor="rgb(123,137,149)"
                     style={styles.input}
                     onChangeText={text => onChangeText(text)}
                     value={valueMess}
                 />
-                           
+              
             <TouchableOpacity style={styles.button} onPress={() => { saveEntry(data) }}>
                 <Text style={styles.buttonText}>Запись</Text>
             </TouchableOpacity>
             </View>
-
-        </ScrollView>
+            </ScrollView>
         </View>
     );
 }
 export default DetailScreen
 
 const styles = StyleSheet.create({
-    wrapperDetail: {backgroundColor: 'white',alignItems: 'center',position: 'relative'},
-    mainWrapper: { alignItems: 'center', justifyContent: 'center' ,height: height + 300},
+    wrapperDetail: {backgroundColor: 'white',position: 'relative',flex: 1},
+    mainWrapper: { alignItems: 'center', justifyContent: 'center' , paddingTop: 40},
     wrapperInput: {
         position: 'relative'
     },
     label: {
-        position: 'absolute',top: 5,left: 10
+        position: 'absolute',
+        top: 15,
+        left: 10,
+        fontSize: 16,
+        color: 'rgb(113,126,139)',
+        fontWeight: 'bold'
     },
     input: {
+        backgroundColor:"white",
         borderRadius: 5,
         marginBottom: 20,
-        borderColor: 'gray',
+        borderColor: 'rgb(232,236,241)',
         borderWidth: 1,
         minWidth: '90%',
-        paddingTop: 20,
-        height: 80,
+        paddingTop: 30,
+        height: 90,
+        fontSize: 22,
         paddingHorizontal: 10,
         textAlign: 'left',
+        fontWeight: 'bold',
     },
     button: {
-        marginBottom: 300,
         borderRadius: 25,
         paddingVertical: 20,
-        width: '100%',
+        width: '90%',
         backgroundColor: blue,
+        marginBottom: 20
     },
     buttonText: {
         textAlign: 'center',

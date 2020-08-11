@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState,useEffect } from 'react';
 
 
 import {
@@ -7,12 +7,11 @@ import {
     View,
     StyleSheet,
     TouchableOpacity,
-    Dimensions,
 } from 'react-native';
 import moment from "moment";
-import {useDispatch, useSelector} from "react-redux";
-import {choseAllDate, choseWeekDay,choseDay} from "../../actions/actions";
-import {black, lightBlue, lightWhite, white,deviceWidth, screenHeight} from "../../core/const";
+import { useDispatch, useSelector } from "react-redux";
+import { choseAllDate, choseWeekDay, choseDay } from "../../actions/actions";
+import { black, lightBlue, lightWhite, white, deviceWidth, screenHeight } from "../../core/const";
 
 const widthItem = () => {
     return (deviceWidth / 7) - 10
@@ -23,11 +22,14 @@ const width = () => {
 }
 
 const MonthComponent = (props) => {
-    const {navigation} = props.props
+    const { navigation } = props.props
     const dispatch = useDispatch()
     const weekIndex = useSelector(state => state.calendar.choseWeekIndex)
     const choseDate = useSelector(state => state.calendar.choseAllDate)
     const messArr = useSelector(state => state.calendar.entryMass)
+
+
+
 
     const getCalendar = (data) => {
         let calendar = []
@@ -58,11 +60,22 @@ const MonthComponent = (props) => {
     }
     const [calendar, setCalendars] = useState(getMount(3))
 
-    const chooseDayColor = (item, index) => choseDate.format('MM') === item.days[0].format('MM') && index === weekIndex ? 'rgb(228, 245, 254)' : null;
+    useEffect(() => {
+        if (weekIndex === 0) {
+            for (let i =0;i < calendar[1].length; i++) {
+                let find = calendar[1][i].days.find(item => item.format("D") === choseDate.format("D"))
+                if (find != undefined) {
+                    dispatch(choseWeekDay(i))
+                }
+            }
+        } 
+    });
+
+    const chooseDayColor = (item, index) => choseDate.format('MM') === item.days[0].format('MM')  && index === weekIndex ? 'rgb(228, 245, 254)' : null;
 
     const monthRender = (item, monthTitle) => item.map((item, index) => <View
         key={`${index} monthRender`}
-        style={[styles.month, {backgroundColor: chooseDayColor(item, index)}]}>
+        style={[styles.month, { backgroundColor: chooseDayColor(item, index) }]}>
         {renderWeekLine(item.days, index, monthTitle)}
     </View>)
 
@@ -73,7 +86,8 @@ const MonthComponent = (props) => {
         props.setTub('день')
     }
 
-    const countMess = (check, item) => {
+    const countMess = (item) => {
+        console.log('item',item)
         let otv
         for (let i = 0; i < Object.values(messArr).length; i++) {
             if (item == Object.values(messArr)[i].day) {
@@ -90,37 +104,35 @@ const MonthComponent = (props) => {
         }
     }
 
-    const wrapperColor = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('D') === item.format('D') && choseDate.format('MM') === item.format('MM')? 'rgb(2,122,255)': 'transparent'
+    const wrapperColor = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('D') === item.format('D') && choseDate.format('MM') === item.format('MM') ? 'rgb(2,122,255)' : 'transparent'
     const textColor = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('D') === item.format('D') && choseDate.format('MM') === item.format('MM') ? white : monthTitle === item.format('MMMM') ? black : lightWhite
     const monthCount = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('D') === item.format('D') && choseDate.format('MM') === item.format('MM')
 
-    const renderWeekLine = (item, indexWeek, monthTitle) => item.map((item,index) => <TouchableOpacity
-        key={`${index} renderWeekLine`}
-        onPress={() => pressDay(item, indexWeek)}
-        disabled={monthTitle !== item.format('MMMM')}
-        style={styles.weekLineContainer}>
-        <View style={[styles.weekLineWrapper,{backgroundColor:wrapperColor(item, monthTitle)}]}>
-            <Text
-                style={{color: textColor(item, monthTitle)}}>
-                {item.format('D')}
-            </Text>
-            <View style={styles.weekLineTextWrapper}>
-                <Text style={styles.weekLineTextStyle}>{countMess(monthCount(item, monthTitle), item.format('L'))}</Text>
-            </View>
+    const renderWeekLine = (item, indexWeek, monthTitle) => item.map((item, index) => <TouchableOpacity
+    key={`${index} renderWeekLine`}
+    onPress={() => pressDay(item, indexWeek)}
+    disabled={monthTitle !== item.format('MMMM')}
+    style={styles.weekLineContainer}>
+    <View style={[styles.weekLineWrapper, { backgroundColor: wrapperColor(item, monthTitle) }]}>
+        <Text style={{ color: textColor(item, monthTitle) }}>
+            {item.format('D')}
+        </Text>
+        <View style={styles.weekLineTextWrapper}>
+            <Text style={styles.weekLineTextStyle}>{countMess( item.format('L'),monthCount(item, monthTitle))}</Text>
         </View>
-    </TouchableOpacity>)
+    </View>
+</TouchableOpacity>)
 
     const renderItems = (item) => {
         const week = () => {
-            return item[1][`days`].map((item,index) => <Text key={`${index} week`}  style={styles.itemText}>
+            return item[1][`days`].map((item, index) => <Text key={`${index} week`} style={styles.itemText}>
                 {item.format('dd')}
             </Text>)
         }
         const monthTitle = item[1][`days`][0].format('MMMM')
         return (<>
-            <Text style={styles.itemTitle}>{monthTitle}123</Text>
-            <View
-                style={styles.itemWeekWrapper}>
+            <Text style={styles.itemTitle}>{monthTitle}</Text>
+            <View style={styles.itemWeekWrapper}>
                 {week()}
             </View>
             <View style={styles.itemMonthWrapper}>
@@ -129,11 +141,13 @@ const MonthComponent = (props) => {
         </>)
     }
 
-    return    <FlatList
-        keyExtractor={(item, index) => index.toString()}
+
+
+    return <FlatList
+        keyExtractor={(index) => index.toString()}
         data={calendar}
-        renderItem={({item}) => renderItems(item)}
-        style={{height: screenHeight - 200}}
+        renderItem={({ item }) => renderItems(item)}
+        style={{ height: screenHeight - 200 }}
     />
 
 }
@@ -178,12 +192,12 @@ const styles = StyleSheet.create({
         color: lightWhite
     },
     itemTitle: {
-        marginLeft: 25, fontSize: 25, fontWeight: 'bold', marginBottom: 10
+        marginLeft: 25, fontSize: 25, fontWeight: 'normal', marginBottom: 10
     },
     itemWeekWrapper: {
         marginBottom: 10, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-around'
     },
-    itemMonthWrapper: {justifyContent: 'center', alignItems: 'center', width: '100%'}
+    itemMonthWrapper: { justifyContent: 'center', alignItems: 'center', width: '100%' }
 });
 
 

@@ -140,7 +140,7 @@ const WeekComponent = (props) => {
         const weekView = mass.map((item,index) => <TouchableOpacity
             onPress={() => setData(item,index)}
              style={{width: 100, height: 50,alignItems: 'center'}}>
-            <View style={[styles.wrapperWeeks,{backgroundColor: activeMonth(item[0],item[1],activeWeek) ? 'rgb(2, 122, 255)' : 'white'}]}>
+            <View style={[styles.wrapperWeeks,{backgroundColor: activeMonth(item[0],item[1],activeWeek) ? 'rgb(2, 122, 255)' : 'rgb(249,249,249)'}]}>
                 <View style={{flexDirection: 'row',justifyContent: 'center'}}>
                     <Text style={{color: activeMonth(item[0],item[1],activeWeek) ? 'white' : 'black'}}>{item[0]}</Text>
                     <Text style={{color: activeMonth(item[0],item[1],activeWeek) ? 'white' : 'black'}}>-</Text>
@@ -157,7 +157,7 @@ const WeekComponent = (props) => {
         </TouchableOpacity>)
         return weekView
     }
-    const weekRender = (week,weeks) => {
+    const weekRender = (week) => {
         let length = []
         for (let i = 0; i <= week.length-1;i++) {
             if (i === 0) {
@@ -170,14 +170,14 @@ const WeekComponent = (props) => {
     }
 
 const test = (item) => {
-    let findElement = allDayMonth.find(element => element.format('D') === item.toString().substring(8, 10))
+    let findElement = allDayMonth.find((element) => element.format('DD') === item.toString().substring(8, 10))
     dispatch(choseAllDate(findElement))
-    dispatch(choseDay(findElement.format('D')))
+    dispatch(choseDay(findElement.format('DD')))
 }
 
     const renderDaysOfWeek = () => {
         let weeks = weeksInMonth()
-        return weeks[daysOfWeek].map((item,index) => <TouchableOpacity key={`${index}  renderDaysOfWeek`} onPress={() => test(item,index)} style={{borderColor: 'rgb(206,206,206)',borderRightWidth: 1,width:widthItem() ,alignItems: 'center',justifyContent: 'center',backgroundColor: day == item.toString().substring(8, 10)? 'rgb(2, 122, 255)' : 'white'}}>
+        return weeks[daysOfWeek].map((item,index) => <TouchableOpacity key={`${index}  renderDaysOfWeek`} onPress={() => test(item,index)} style={{borderColor: 'rgb(206,206,206)',borderRightWidth: 1,width:widthItem() ,alignItems: 'center',justifyContent: 'center',backgroundColor: day == item.toString().substring(8, 10)? 'rgb(2, 122, 255)' : 'rgb(249,249,249)'}}>
             <View style={{flexDirection: 'row'}}>
                 <Text style={{color: day == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(0, 3)}</Text>
                 <Text style={{color: day == item.toString().substring(8, 10)? 'white' : 'black'}}>{item.toString().substring(8, 10)}</Text>
@@ -215,7 +215,7 @@ const test = (item) => {
             </View>
             <View style={styles.container}>
             <ScrollView style={styles.scrollView}>
-                    <TimeLineWeek navigation={navigation} />
+                <TimeLineWeek navigation={navigation} />
             </ScrollView>
             </View>
         </View>
@@ -225,7 +225,7 @@ const test = (item) => {
 const styles = StyleSheet.create({
     wrapperWeeks: {borderRightWidth:1,borderColor: 'rgb(206,206,206)',justifyContent: 'center',height: '100%',width: '100%'},
     scrollView: {
-        backgroundColor: '#eee',
+        backgroundColor: 'white',
     },
     container: {
         height: screenHeight - 250,
@@ -235,10 +235,10 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,borderColor: 'rgb(206,206,206)',flexDirection: 'row',width: deviceWidth
     },
     wrapperTopSlider: {
-        alignItems: 'flex-start',borderTopWidth: 1,borderBottomWidth: 1,borderColor: 'rgb(206,206,206)',backgroundColor: 'rgb(249, 249, 249)'
+        alignItems: 'flex-start',borderTopWidth: 1,borderBottomWidth: 1,borderColor: 'rgb(206,206,206)',backgroundColor: 'white'
     },
     calendarIcon: {
-        width: 50,height: 50,borderRightWidth: 1,justifyContent: 'center',flexDirection: 'row',alignItems:'center',borderColor: 'rgb(206,206,206)'
+        width: 50,height: 50,borderRightWidth: 1,justifyContent: 'center',flexDirection: 'row',alignItems:'center',borderColor: 'rgb(206,206,206)',backgroundColor: 'rgb(249,249,249)'
     },
     item: {width: 50,height: 50,borderRightWidth:1,borderColor: 'rgb(206,206,206)',justifyContent: 'center',backgroundColor: 'rgb(249, 249, 249)'},
     itemActive: {

@@ -73,7 +73,7 @@ const DayComponent = (props) => {
                                 <Text style={{color: day === item.format('D')? 'white' : 'black' }}>{item.format('D')}</Text>
                                 <Text style={{color: day === item.format('D')? 'white' : 'black' }}>{item.format('dd')}</Text>
                             </View>
-                            <Text style={{textAlign: 'center',color: day === item.format('D')? 'white' : 'black' }}>{item.format('MMM')}</Text>
+                            <Text style={{textAlign: 'center',fontSize: 10,color: day === item.format('D')? 'white' : 'rgb(195,195,195)' }}>{item.format('MMMM')}</Text>
                         </TouchableOpacity>
                     </View>}
                 />
@@ -94,12 +94,12 @@ const styles = StyleSheet.create({
         marginBottom: '140%',
     },
     wrapperTopSlider: {
-        flexDirection: 'row',alignItems: 'center',borderTopWidth: 1,borderBottomWidth: 1,borderColor: 'rgb(206,206,206)',height: 50,backgroundColor: 'rgb(249, 249, 249)'
+        flexDirection: 'row',alignItems: 'center',borderTopWidth: 1,borderBottomWidth: 1,borderColor: 'rgb(200,199,204)',height: 50,backgroundColor: 'rgb(249, 249, 249)'
     },
     calendarIcon: {
         width: 50,height: 50,borderRightWidth: 1,justifyContent: 'center',borderColor: 'rgb(206,206,206)',alignItems: 'center'
     },
-    item: {width: 50,paddingVertical:7,borderRightWidth:1,borderColor: 'rgb(206,206,206)',justifyContent: 'center',backgroundColor: 'rgb(249, 249, 249)'},
+    item: {width: 50,paddingVertical:9,borderRightWidth:1,borderColor: 'rgb(200,199,204)',justifyContent: 'center',backgroundColor: 'rgb(249, 249, 249)'},
     itemActive: {
         backgroundColor: 'rgb(2, 122, 255)'
     },

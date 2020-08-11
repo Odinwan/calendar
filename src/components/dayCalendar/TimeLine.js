@@ -30,7 +30,7 @@ const TimeLine = (props) => {
             <>
                 <View key={element} style={styles.wreapperItem}>
                     <View style={styles.wrapperNumberDay}>
-                        <Text style={{textAlign: 'center'}}>{element}</Text>
+                        <Text style={styles.leftNumber}>{element}</Text>
                     </View>
                 </View>
                 {elementInner.hasOwnProperty('third') && element == elementInner.third.startHour ?
@@ -52,7 +52,7 @@ const TimeLine = (props) => {
         let mass = workHour.map((element,index) =>
             <View key={`${index}  clearElements`} style={styles.wreapperItem}>
                 <View style={styles.wrapperNumberDay}>
-                    <Text style={{textAlign: 'center'}}>{element}</Text>
+                    <Text style={styles.leftNumber}>{element}</Text>
                 </View>
             </View>
         )
@@ -92,14 +92,15 @@ const TimeLine = (props) => {
                 </View>
             </TouchableOpacity>
     }
-    return <View >
+    return <View style={{backgroundColor: 'rgb(255,255,255)'}} >
                 {timeline()}
             </View>
 }
 
 const styles = StyleSheet.create({
-    wreapperItem: {height: 150,flexDirection: "row",borderBottomWidth: 1,borderBottomColor: 'black',zIndex: 1},
-    entry: {width: '100%',paddingRight: 105,paddingVertical: 5,paddingLeft: 5,zIndex: 20,left: 50,position: 'absolute'},
+    leftNumber: {textAlign: 'center',marginTop: 10,fontSize: 12,fontWeight: 'bold'},
+    wreapperItem: {height: 150,flexDirection: "row",borderBottomWidth: 1,borderBottomColor: 'rgb(200,199,204)',zIndex: 1},
+    entry: {width: '100%',paddingRight: 105,paddingVertical: 3,paddingLeft: 5,zIndex: 20,left: 50,position: 'absolute'},
     wrapperNumberDay: {width: 50,backgroundColor: 'rgb(249, 249, 249)'},
     themeMess: {padding: 5,borderRadius: 5,maxHeight: 175}
 });
