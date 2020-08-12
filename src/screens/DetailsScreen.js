@@ -81,7 +81,7 @@ const DetailScreen = (props) => {
                 if (startDay <= newStartElement && newEndElement <= oldFirstStart ||
                     oldFirstEnd <= newStartElement && newEndElement <= oldSecondStart ||
                     oldSecondEnd <= newStartElement && newEndElement <= endDay) {
-                    // alert('Запись добавлена')
+                    alert('Запись добавлена')
                     return true
                 } else {
                     alert(`Запись не может быть тут установленна`)
@@ -138,7 +138,6 @@ const DetailScreen = (props) => {
                             }
                         }
                     } else {
-                        alert('1234')
                         let first = count('first', element[i])
                         dispatch(addEntry(first))
                         navigate('Home')
