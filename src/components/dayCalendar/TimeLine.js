@@ -17,8 +17,6 @@ const TimeLine = (props) => {
 
     const timeline = () => {
         let test = Object.values(data).filter(data => data.day == choseAllDate.format('L'))
-        console.log('test',Object.values(data))
-        console.log('choseAllDate.format(L)',choseAllDate.format('L'))
         if (test.length != 0) {
             return renderLineElement(test[0])
         } else {

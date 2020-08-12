@@ -107,7 +107,7 @@ const MonthComponent = (props) => {
     }
 
     const wrapperColor = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('DD') === item.format('DD') && choseDate.format('MM') === item.format('MM') ? 'rgb(2,122,255)' : 'transparent'
-    const textColor = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('DD') === item.format('DD') && choseDate.format('MM') === item.format('MM') ? white : monthTitle === item.format('MMMM') ? black : lightWhite
+    const textColor = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('DD') === item.format('DD') && choseDate.format('MM') === item.format('MM') ? white : monthTitle === item.format('MMMM') ? black : white
     const monthCount = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('DD') === item.format('DD') && choseDate.format('MM') === item.format('MM')
 
     const renderWeekLine = (item, indexWeek, monthTitle) => item.map((item, index) => <TouchableOpacity
@@ -116,7 +116,7 @@ const MonthComponent = (props) => {
     disabled={monthTitle !== item.format('MMMM')}
     style={styles.weekLineContainer}>
     <View style={[styles.weekLineWrapper, { backgroundColor: wrapperColor(item, monthTitle) }]}>
-        <Text style={{ fontWeight: 'bold',fontSize: 16,color: textColor(item, monthTitle) }}>
+        <Text style={{ fontWeight: 'normal',fontSize: 16,color: textColor(item, monthTitle) }}>
             {item.format('D')}
         </Text>
         <View style={styles.weekLineTextWrapper}>
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
         color: lightBlue
     },
     itemText: {
-        color: lightWhite,fontSize:13,
+        color: lightWhite,fontSize:13,textTransform: 'capitalize'
     },
     itemTitle: {
         marginLeft: 25, fontSize: 25, fontWeight: 'normal', marginBottom: 10,textTransform: 'capitalize',
