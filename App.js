@@ -50,6 +50,8 @@ function App() {
         headerBackTitle: 'Назад'
     })
 
+
+
     return (
         <NavigationContainer>
             <Stack.Navigator>

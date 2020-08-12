@@ -1,13 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 
 import {
     StyleSheet,
     Text,
     View,
-    Image,
     TouchableOpacity,
-    SafeAreaView,
 } from 'react-native';
 
 
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
     },
     simpeTub: {
         width: '100%',
-        borderRadius: 8,
+        borderRadius: Platform.OS === 'ios' ? 8 : 9 ,
         paddingHorizontal: 33,
         paddingVertical: 5,
     },

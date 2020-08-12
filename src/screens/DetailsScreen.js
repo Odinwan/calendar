@@ -17,12 +17,6 @@ const DetailScreen = (props) => {
     const [valueMess, onChangeText] = React.useState('Useless Placeholder');
     const [check, setCheck] = React.useState(true);
 
-    const [absoluteFirstInput, setAbsoluteFirstInput] = useState(false);
-    const [absoluteSecondInput, setAbsoluteSecondInput] = useState(false);
-    const [absoluteThirdInput, setAbsoluteThirdInput] = useState(false);
-    const [absoluteFourInput, setAbsoluteFourInput] = useState(false);
-    const [absoluteFiveInput, setAbsoluteFiveInput] = useState(false);
-
     const dispatch = useDispatch()
  
     useEffect(() => {
@@ -87,7 +81,7 @@ const DetailScreen = (props) => {
                 if (startDay <= newStartElement && newEndElement <= oldFirstStart ||
                     oldFirstEnd <= newStartElement && newEndElement <= oldSecondStart ||
                     oldSecondEnd <= newStartElement && newEndElement <= endDay) {
-                    alert('Запись добавлена')
+                    // alert('Запись добавлена')
                     return true
                 } else {
                     alert(`Запись не может быть тут установленна`)
@@ -97,7 +91,7 @@ const DetailScreen = (props) => {
                 if (startDay <= newStartElement && oldSecondEnd <= oldSecondStart ||
                     oldSecondEnd <= newStartElement && newEndElement <= oldFirstStart
                     || oldFirstEnd <= newStartElement && newEndElement <= endDay) {
-                    alert('Запись добавлена')
+                    // alert('Запись добавлена')
                     return true
                 } else {
                     alert('Запись не может быть тут установленна')
@@ -105,7 +99,8 @@ const DetailScreen = (props) => {
                 }
             }
         } else {
-            if (newStartElement => oldFirstEnd || newEndElement <= oldFirstStart) {
+            
+            if (startDay <= newStartElement && newEndElement <= oldFirstStart || oldFirstEnd <= newStartElement && newEndElement <= endDay) {
                 alert('Запись добавлена')
                 return true
             } else {
@@ -143,6 +138,7 @@ const DetailScreen = (props) => {
                             }
                         }
                     } else {
+                        alert('1234')
                         let first = count('first', element[i])
                         dispatch(addEntry(first))
                         navigate('Home')

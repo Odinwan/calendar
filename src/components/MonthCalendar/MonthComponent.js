@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { choseAllDate, choseWeekDay, choseDay } from "../../actions/actions";
 import { black, lightBlue, lightWhite, white, deviceWidth, screenHeight } from "../../core/const";
 
+import 'moment/locale/ru'
+
 const widthItem = () => {
     return (deviceWidth / 7) - 10
 }
@@ -27,9 +29,9 @@ const MonthComponent = (props) => {
     const weekIndex = useSelector(state => state.calendar.choseWeekIndex)
     const choseDate = useSelector(state => state.calendar.choseAllDate)
     const messArr = useSelector(state => state.calendar.entryMass)
+    const day = useSelector(state => state.calendar.choseDay)
 
-
-
+    moment.locale('ru')
 
     const getCalendar = (data) => {
         let calendar = []
@@ -63,7 +65,7 @@ const MonthComponent = (props) => {
     useEffect(() => {
         if (weekIndex === 0) {
             for (let i =0;i < calendar[1].length; i++) {
-                let find = calendar[1][i].days.find(item => item.format("D") === choseDate.format("D"))
+                let find = calendar[1][i].days.find(item => item.format("DD") === choseDate.format('DD'))
                 if (find != undefined) {
                     dispatch(choseWeekDay(i))
                 }
@@ -82,12 +84,12 @@ const MonthComponent = (props) => {
     const pressDay = (item, indexWeek) => {
         dispatch(choseAllDate(item))
         dispatch(choseWeekDay(indexWeek))
-        dispatch(choseDay(item.format('D')))
+        dispatch(choseDay(item.format('DD')))
         props.setTub('день')
     }
 
     const countMess = (item) => {
-        console.log('item',item)
+
         let otv
         for (let i = 0; i < Object.values(messArr).length; i++) {
             if (item == Object.values(messArr)[i].day) {
@@ -104,9 +106,9 @@ const MonthComponent = (props) => {
         }
     }
 
-    const wrapperColor = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('D') === item.format('D') && choseDate.format('MM') === item.format('MM') ? 'rgb(2,122,255)' : 'transparent'
-    const textColor = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('D') === item.format('D') && choseDate.format('MM') === item.format('MM') ? white : monthTitle === item.format('MMMM') ? black : lightWhite
-    const monthCount = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('D') === item.format('D') && choseDate.format('MM') === item.format('MM')
+    const wrapperColor = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('DD') === item.format('DD') && choseDate.format('MM') === item.format('MM') ? 'rgb(2,122,255)' : 'transparent'
+    const textColor = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('DD') === item.format('DD') && choseDate.format('MM') === item.format('MM') ? white : monthTitle === item.format('MMMM') ? black : lightWhite
+    const monthCount = (item, monthTitle) => monthTitle === item.format('MMMM') && choseDate.format('DD') === item.format('DD') && choseDate.format('MM') === item.format('MM')
 
     const renderWeekLine = (item, indexWeek, monthTitle) => item.map((item, index) => <TouchableOpacity
     key={`${index} renderWeekLine`}
@@ -114,7 +116,7 @@ const MonthComponent = (props) => {
     disabled={monthTitle !== item.format('MMMM')}
     style={styles.weekLineContainer}>
     <View style={[styles.weekLineWrapper, { backgroundColor: wrapperColor(item, monthTitle) }]}>
-        <Text style={{ color: textColor(item, monthTitle) }}>
+        <Text style={{ textAlign: 'center',fontSize: 16,color: textColor(item, monthTitle) }}>
             {item.format('D')}
         </Text>
         <View style={styles.weekLineTextWrapper}>
@@ -189,10 +191,10 @@ const styles = StyleSheet.create({
         color: lightBlue
     },
     itemText: {
-        color: lightWhite
+        color: lightWhite,fontSize:13,textTransform: 'capitalize',
     },
     itemTitle: {
-        marginLeft: 25, fontSize: 25, fontWeight: 'normal', marginBottom: 10
+        marginLeft: 25, fontSize: 25, fontWeight: 'normal', marginBottom: 10,textTransform: 'capitalize',
     },
     itemWeekWrapper: {
         marginBottom: 10, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-around'

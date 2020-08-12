@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 24,
-        paddingTop: 10
+        paddingTop: Platform.OS === 'ios' ? 10 : 0 
     },
     containerBut: {
         display: 'flex',
