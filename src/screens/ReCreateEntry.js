@@ -93,6 +93,9 @@ const ReCreateEntry = (props) => {
                 alert('Запись Отредактирована')
                 return true
             } else {
+                // console.log(`${startDay} <= ${newStartElement} && ${newEndElement} <= ${oldFirstStart} ||
+                // ${oldFirstEnd} <= ${newStartElement} && ${newEndElement} <= ${oldSecondStart} ||
+                // ${oldSecondEnd} <= ${newStartElement} && ${newEndElement} <= ${endDay}`)
                 alert(`Запись не может быть тут установленна first second`)
                 return false
             }
