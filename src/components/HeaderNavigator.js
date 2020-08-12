@@ -24,7 +24,7 @@ import {useNavigation} from '@react-navigation/native';
             <TouchableOpacity  style={styles.plus} onPress={() => onPress()} >
                 <Image style={{height: 25,width: 25}} source={require('../../assets/image/icons8-плюс-40.png')}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => console.log('123')}>
+            <TouchableOpacity onPress={() => console.log('settings')}>
                 <Image style={{height: 25,width: 25}} source={require('../../assets/image/icons8-сервисы-40.png')}/>
             </TouchableOpacity>
         </View>
