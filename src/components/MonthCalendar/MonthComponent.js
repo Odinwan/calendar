@@ -116,7 +116,7 @@ const MonthComponent = (props) => {
     disabled={monthTitle !== item.format('MMMM')}
     style={styles.weekLineContainer}>
     <View style={[styles.weekLineWrapper, { backgroundColor: wrapperColor(item, monthTitle) }]}>
-        <Text style={{ textAlign: 'center',fontSize: 16,color: textColor(item, monthTitle) }}>
+        <Text style={{ fontWeight: 'bold',fontSize: 16,color: textColor(item, monthTitle) }}>
             {item.format('D')}
         </Text>
         <View style={styles.weekLineTextWrapper}>
@@ -160,7 +160,7 @@ export default MonthComponent
 const styles = StyleSheet.create({
     month: {
         width: width(),
-        marginBottom: 15,
+        marginBottom: 10,
         borderRadius: 25,
         marginHorizontal: 20,
         alignItems: 'center',
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
         color: lightBlue
     },
     itemText: {
-        color: lightWhite,fontSize:13,textTransform: 'capitalize',
+        color: lightWhite,fontSize:13,
     },
     itemTitle: {
         marginLeft: 25, fontSize: 25, fontWeight: 'normal', marginBottom: 10,textTransform: 'capitalize',
